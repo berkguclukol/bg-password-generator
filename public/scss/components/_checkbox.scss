@@ -1,0 +1,38 @@
+$nonchecked-color: #14244C;
+$checked-color: #2a6cc1;
+$width: 50px;
+$height: 30px;
+$thumb: 20px;
+.checkbox-input {
+  display: inline-flex;
+  align-items: center;
+  .checkbox {
+    display: block;
+    width: $width;
+    height: $height;
+    background-color: $nonchecked-color;
+    border-radius: 37px;
+    position: relative;
+    cursor: pointer;
+    &::before {
+      content: "";
+      width: $thumb;
+      height: $thumb;
+      border-radius: 50%;
+      background-color: white;
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      transition: 300ms left, 300ms background-color;
+    }
+  }
+  input {
+    display: none;
+    &:checked + .checkbox {
+      background-color:$checked-color;
+      &::before {
+        left: 25px;
+      }
+    }
+  }
+}
