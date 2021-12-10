@@ -1,14 +1,14 @@
 {
   "name": "BGPasswordGenerator",
   "version": "1.0.0",
-  "description": "password generator for personal usage",
+  "description": "Password generator for personal usage",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder"
   },
   "author": "Berk Guclukol",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "electron": "^16.0.4",
     "electron-builder": "^22.14.5"
