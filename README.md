@@ -32,5 +32,3 @@ npm run dist
 ## License
 
 MIT
-
-**Free Software, Hell Yeah!**
