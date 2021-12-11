@@ -1,7 +1,7 @@
 {
-  "name": "BGPasswordGenerator",
+  "name": "bgpasswordgenerator",
   "version": "1.0.0",
-  "description": "Password generator for personal usage",
+  "description": "Offline password generator for personal usage.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
