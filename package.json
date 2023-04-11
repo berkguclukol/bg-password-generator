@@ -24,5 +24,18 @@
   "bugs": {
     "url": "https://github.com/berkguclukol/bg-password-generator/issues"
   },
-  "homepage": "https://github.com/berkguclukol/bg-password-generator#readme"
+  "homepage": "https://github.com/berkguclukol/bg-password-generator#readme",
+  "build": {
+    "win": {
+      "target": [
+        {"target": "portable"},
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  }
 }

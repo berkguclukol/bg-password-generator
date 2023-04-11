@@ -1,24 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="dark" class="d-flex">
 <head>
 	<meta charset="UTF-8"/>
 	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"/>
 	<meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
-	<title>BG Password Generator!</title>
+	<title>BG Password Generator v2.0</title>
 	<link rel="stylesheet" href="vendor/bootstrap-5.3.0-alpha3/scss/bootstrap.min.css">
 	<link rel="stylesheet" href="vendor/bootstrap-icons-1.10.4/bootstrap-icons.min.css">
 </head>
-<body>
-<div class="container mt-2">
+<body class="d-flex align-items-center justify-content-center w-100 vh-100 overflow-hidden">
+<div>
 	<div class="row">
 		<div class="col">
-			<a href="#" id="theme-changer" data-bs-toggle="tooltip"
-			   data-bs-placement="bottom" data-bs-title="Tema Değiştir">
-				<i class="bi bi-moon"></i>
-			</a>
+			<h3 class="user-select-none text-center">BG Password Generator</h3>
+			<hr>
 		</div>
 	</div>
-
 	<div class="row">
 		<div class="col">
 			<div class="card mb-4">
@@ -55,7 +52,7 @@
 					<div class="d-flex gap-2">
 						<div class="fw-medium small text-secondary opacity-75">4</div>
 						<input type="range" id="length" class="flex-grow-1" value="22" min="4" max="28"/>
-						<div class="bg-secondary">28</div>
+						<div class="fw-medium small text-secondary opacity-75">28</div>
 					</div>
 				</div>
 			</div>
@@ -80,6 +77,13 @@
 					</div>
 					<div id="password" class="user-select-none text-center fw-bold fs-3 font-monospace"></div>
 				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col">
+			<div class="d-flex justify-content-center">
+				<a href="#" class="btn btn-sm btn-secondary small" id="theme-changer"></a>
 			</div>
 		</div>
 	</div>

@@ -1,6 +1,3 @@
-console.log(process.versions)
-
-
 let generateBtn = document.getElementById("GenerateBtn");
 let copyBtn = document.getElementById("CopyBtn");
 let passwordArea = document.getElementById("password");
@@ -13,7 +10,8 @@ const symbolsEl = document.getElementById("symbols");
 rangeChange("mousedown");
 rangeChange("mousemove");
 rangeChange("keydown");
-range_text.innerHTML = "LENGTH: " + lengthEl.value;
+range_text.innerHTML = "length: " + lengthEl.value;
+
 function rangeChange(evtType) {
   lengthEl.addEventListener(evtType, function () {
     window.requestAnimationFrame(function () {
@@ -51,18 +49,12 @@ copyBtn.addEventListener("click", () => {
 });
 
 generateBtn.addEventListener("click", () => {
-  const length = +lengthEl.value;
-  const hasLower = lowercaseEl.checked;
-  const hasUpper = uppercaseEl.checked;
-  const hasNumber = numbersEl.checked;
-  const hasSymbol = symbolsEl.checked;
-
   passwordArea.innerText = generatePassword(
-      hasLower,
-      hasUpper,
-      hasNumber,
-      hasSymbol,
-      length
+      lowercaseEl.checked,
+      uppercaseEl.checked,
+      numbersEl.checked,
+      symbolsEl.checked,
+      +lengthEl.value
   );
 });
 

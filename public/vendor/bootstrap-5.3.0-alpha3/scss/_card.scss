@@ -32,7 +32,7 @@
   height: var(--#{$prefix}card-height);
   color: var(--#{$prefix}body-color);
   word-wrap: break-word;
-  background-color: var(--#{$prefix}card-bg);
+  background-color: var(--card-bg);
   background-clip: border-box;
   @include border-radius(var(--#{$prefix}card-border-radius));
   @include box-shadow(var(--#{$prefix}card-box-shadow));

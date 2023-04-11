@@ -3,8 +3,8 @@ const themeChanger = document.getElementById("theme-changer");
 const cookieName = "app-theme";
 
 
-const darkIcon = '<i class="bi bi-moon"></i>';
-const lightIcon = '<i class="bi bi-brightness-high"></i>';
+const darkIcon = 'dark mode';
+const lightIcon = 'light mode';
 
 if (localStorage.getItem(cookieName) === null) {
     localStorage.setItem(cookieName, "light");

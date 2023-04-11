@@ -3,9 +3,9 @@ const path = require("path");
 const ipc = ipcMain;
 const createWindow = () => {
 	const win = new BrowserWindow({
-		width: 450,
-		height: 650,
-		//autoHideMenuBar: true,
+		width: 425,
+		height: 670,
+		autoHideMenuBar: true,
 		webPreferences: {
 			nodeIntegration: true,
 			contextIsolation: false,
