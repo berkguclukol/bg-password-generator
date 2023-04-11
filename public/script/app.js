@@ -1,3 +1,6 @@
+console.log(process.versions)
+
+
 let generateBtn = document.getElementById("GenerateBtn");
 let copyBtn = document.getElementById("CopyBtn");
 let passwordArea = document.getElementById("password");
@@ -10,6 +13,7 @@ const symbolsEl = document.getElementById("symbols");
 rangeChange("mousedown");
 rangeChange("mousemove");
 rangeChange("keydown");
+range_text.innerHTML = "LENGTH: " + lengthEl.value;
 function rangeChange(evtType) {
   lengthEl.addEventListener(evtType, function () {
     window.requestAnimationFrame(function () {
@@ -35,14 +39,15 @@ copyBtn.addEventListener("click", () => {
   textarea.select();
   document.execCommand("copy");
   textarea.remove();
-  copyBtn.innerText = "Copied to clipboard!";
+  copyBtn.innerText = "COPIED!";
   copyBtn.setAttribute("disabled", "disabled");
   copyBtn.classList.add("disabled");
   setTimeout(() => {
-    copyBtn.innerText = "Copy Password!";
+    copyBtn.innerText = "COPY";
     copyBtn.removeAttribute("disabled");
     copyBtn.classList.remove("disabled");
   }, 3000);
+  return false;
 });
 
 generateBtn.addEventListener("click", () => {
@@ -53,11 +58,11 @@ generateBtn.addEventListener("click", () => {
   const hasSymbol = symbolsEl.checked;
 
   passwordArea.innerText = generatePassword(
-    hasLower,
-    hasUpper,
-    hasNumber,
-    hasSymbol,
-    length
+      hasLower,
+      hasUpper,
+      hasNumber,
+      hasSymbol,
+      length
   );
 });
 
@@ -65,7 +70,7 @@ function generatePassword(lower, upper, number, symbol, length) {
   let generatedPassword = "";
   const typesCount = lower + upper + number + symbol;
   const typesArr = [{ lower }, { upper }, { number }, { symbol }].filter(
-    (item) => Object.values(item)[0]
+      (item) => Object.values(item)[0]
   );
   if (typesCount === 0) {
     return "";

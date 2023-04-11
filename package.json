@@ -1,17 +1,28 @@
 {
   "name": "bgpasswordgenerator",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Offline password generator for personal usage.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/berkguclukol/bg-password-generator.git"
+  },
   "author": "Berk Guclukol",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^16.0.4",
-    "electron-builder": "^22.14.5"
+    "electron": "^24.0.0",
+    "electron-builder": "^24.2.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "bootstrap": "^5.3.0-alpha3",
+    "bootstrap-icons": "^1.10.4"
+  },
+  "bugs": {
+    "url": "https://github.com/berkguclukol/bg-password-generator/issues"
+  },
+  "homepage": "https://github.com/berkguclukol/bg-password-generator#readme"
 }

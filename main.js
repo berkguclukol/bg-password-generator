@@ -2,24 +2,10 @@ const {app, BrowserWindow, ipcMain} = require("electron");
 const path = require("path");
 const ipc = ipcMain;
 const createWindow = () => {
-	const splash = new BrowserWindow({
-		width: 500,
-		height: 335,
-		transparent: true,
-		frame: false,
-		alwaysOnTop: true,
-	});
-	splash.setIcon(path.join(__dirname, "icon.png"));
-	splash.loadFile(path.join(__dirname, "public/splash.html"));
-	splash.center();
 	const win = new BrowserWindow({
-		width: 600,
-		height: 550,
-		maximizable: false,
-		autoHideMenuBar: true,
-		resizable: false,
-		frame: false,
-		show: false,
+		width: 450,
+		height: 650,
+		//autoHideMenuBar: true,
 		webPreferences: {
 			nodeIntegration: true,
 			contextIsolation: false,
@@ -28,10 +14,7 @@ const createWindow = () => {
 	});
 	win.setIcon(path.join(__dirname, "icon.png"));
 	win.loadFile(path.join(__dirname, "public/index.html"));
-	setTimeout(function () {
-		splash.close();
-		win.show();
-	}, 5000);
+	win.show();
     ipc.on("app/minimize", () => {
 		win.minimize();
 	});
