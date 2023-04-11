@@ -1,0 +1,16 @@
+{
+  "name": "bgpasswordgenerator",
+  "version": "2.0.0",
+  "description": "Offline password generator for personal usage.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "author": "Berk Guclukol",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^24.0.0",
+    "electron-builder": "^24.2.0"
+  }
+}
