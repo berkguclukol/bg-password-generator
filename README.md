@@ -11,8 +11,7 @@ You can quickly create a password by installing it as a portable or as a setup. 
 - [ElectronJS] - Electron is a free and open source software framework developed and maintained by GitHub.
 - [node.js] - Node.js is an open source runtime environment for server-side and networked applications.
 
-![dark mode](https://github.com/berkguclukol/bg-password-generator/blob/main/public/screenshot/screenshot-dark.png?raw=true)
-![light mode](https://github.com/berkguclukol/bg-password-generator/blob/main/public/screenshot/screenshot-light.png?raw=true)
+![APP UI](https://github.com/berkguclukol/bg-password-generator/blob/main/public/screenshot/app_screenshot.jpg?raw=true)
 
 ## Installation
 
