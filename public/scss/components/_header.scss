@@ -1,0 +1,59 @@
+$header-bg: #001ef0;
+$title-color: white;
+$minimize-btn-bg: #2AC940;
+$minimize-btn-border: #37B33B;
+$maximize-btn-bg: #FFBE2F;
+$maximize-btn-border: #E4A93A;
+$quit-btn-bg: #FB5D56;
+$quit-btn-border: #E3524A;
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4rem;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: darken($header-bg, 30);
+  -webkit-app-region: drag;
+  .page-title {
+    color: $title-color;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    line-height: 1;
+  }
+  .header-buttons {
+    -webkit-app-region: no-drag;
+    display: flex;
+    gap: .3rem;
+    button {
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: .25rem;
+      color: rgba(0,0,0,.5);
+
+      &#minimizeBtn {
+        background-color: $minimize-btn-bg;
+      }
+      &#maximizeBtn {
+        background-color: $maximize-btn-bg;
+        &.disabled {
+          cursor: not-allowed;
+        }
+      }
+
+      &#quitBtn {
+        background-color: $quit-btn-bg;
+
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 let generateBtn = document.getElementById("GenerateBtn");
+let generateBtnBottom = document.getElementById("GenerateBtnBottom");
 let copyBtn = document.getElementById("CopyBtn");
 let passwordArea = document.getElementById("password");
 let range_text = document.getElementById("range-text");
@@ -10,14 +11,15 @@ const symbolsEl = document.getElementById("symbols");
 rangeChange("mousedown");
 rangeChange("mousemove");
 rangeChange("keydown");
-range_text.innerHTML = "length: " + lengthEl.value;
+range_text.innerHTML = lengthEl.value;
 
 function rangeChange(evtType) {
   lengthEl.addEventListener(evtType, function () {
     window.requestAnimationFrame(function () {
-      range_text.innerHTML = "LENGTH: " + lengthEl.value;
+      range_text.innerHTML = lengthEl.value;
       lengthEl.setAttribute("aria-valuenow", lengthEl.value);
     });
+
   });
 }
 const randomFunc = {
@@ -37,18 +39,28 @@ copyBtn.addEventListener("click", () => {
   textarea.select();
   document.execCommand("copy");
   textarea.remove();
-  copyBtn.innerText = "COPIED!";
+  copyBtn.innerHTML = `<i class="bi bi-clipboard-check"></i>`;
   copyBtn.setAttribute("disabled", "disabled");
   copyBtn.classList.add("disabled");
   setTimeout(() => {
-    copyBtn.innerText = "COPY";
+    copyBtn.innerHTML = `<i class="bi bi-clipboard"></i>`;
     copyBtn.removeAttribute("disabled");
     copyBtn.classList.remove("disabled");
   }, 3000);
   return false;
 });
 
+
 generateBtn.addEventListener("click", () => {
+  passwordArea.innerText = generatePassword(
+      lowercaseEl.checked,
+      uppercaseEl.checked,
+      numbersEl.checked,
+      symbolsEl.checked,
+      +lengthEl.value
+  );
+});
+generateBtnBottom.addEventListener("click", () => {
   passwordArea.innerText = generatePassword(
       lowercaseEl.checked,
       uppercaseEl.checked,

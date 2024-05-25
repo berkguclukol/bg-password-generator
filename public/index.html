@@ -5,91 +5,100 @@
 	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"/>
 	<meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
 	<title>BG Password Generator v2.0</title>
-	<link rel="stylesheet" href="vendor/bootstrap-5.3.0-alpha3/scss/bootstrap.min.css">
-	<link rel="stylesheet" href="vendor/bootstrap-icons-1.10.4/bootstrap-icons.min.css">
+	<link rel="stylesheet" href="vendor/bootstrap-5.3.3/css/bootstrap.zephyr.min.css">
+	<link rel="stylesheet" href="vendor/bootstrap-icons-1.11.3/bootstrap-icons.min.css">
+	<link rel="stylesheet" href="scss/app.min.css">
 </head>
-<body class="d-flex align-items-center justify-content-center w-100 vh-100 overflow-hidden">
-<div>
-	<div class="row">
-		<div class="col">
-			<h3 class="user-select-none text-center">BG Password Generator</h3>
-			<hr>
+<body class="overflow-hidden">
+<header>
+	<div class="page-title">
+		<img src="../icon.png" height="28" alt="" />
+		BG Password Generator v2.0
+	</div>
+	<div class="header-buttons">
+		<button id="minimizeBtn">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+			</svg>
+		</button>
+		<button class="disabled" id="maximizeBtn" disabled>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+			</svg>
+
+		</button>
+		<button id="quitBtn">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+			</svg>
+		</button>
+	</div>
+</header>
+<main>
+	<div class="password-area">
+		<div id="password" class="user-select-none text-center font-monospace"></div>
+		<div class="buttons">
+			<button id="range-text" disabled></button>
+			<button id="CopyBtn">
+				<i class="bi bi-clipboard"></i>
+			</button>
+			<button id="GenerateBtn">
+				<i class="bi bi-arrow-clockwise"></i>
+			</button>
+
 		</div>
 	</div>
-	<div class="row">
-		<div class="col">
-			<div class="card mb-4">
-				<div class="card-body">
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="" id="uppercase" checked>
-						<label class="form-check-label" for="uppercase">
-							Uppercase Letters
-						</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="" id="lowercase" checked>
-						<label class="form-check-label" for="lowercase">
-							Lowercase letters
-						</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="" id="numbers">
-						<label class="form-check-label" for="numbers">
-							Numbers
-						</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" value="" id="symbols">
-						<label class="form-check-label" for="symbols">
-							Symbols (e.g. $ % ^ & ) > < / ' " @)
-						</label>
-					</div>
-				</div>
-			</div>
-			<div class="card">
-				<div class="card-body">
-					<div class="fw-medium user-select-none mb-2 small text-secondary opacity-50" id="range-text"></div>
-					<div class="d-flex gap-2">
-						<div class="fw-medium small text-secondary opacity-75">4</div>
-						<input type="range" id="length" class="flex-grow-1" value="22" min="4" max="28"/>
-						<div class="fw-medium small text-secondary opacity-75">28</div>
-					</div>
-				</div>
-			</div>
+	<div class="range-selector">
+		<div class="fw-medium user-select-none small text-secondary opacity-50" id=""></div>
+		<div class="d-flex gap-2">
+			<div class="fw-medium small text-secondary opacity-75">4</div>
+			<input type="range" id="length" class="flex-grow-1" value="20" min="4" max="24"/>
+			<div class="fw-medium small text-secondary opacity-75">24</div>
 		</div>
 	</div>
-	<div class="row mt-5 mb-5">
-		<div class="col">
-			<div class="d-flex flex-1 gap-2">
-				<button class="btn btn-primary flex-grow-1" id="GenerateBtn" type="button">
-					Generate
-				</button>
-			</div>
-		</div>
+	<div class="values">
+		<p class="m-0">Uppercase Letters (e.g. A-Z)</p>
+		<label class="switch">
+			<input type="checkbox" id="uppercase" disabled checked>
+			<span class="slider round"></span>
+		</label>
 	</div>
-	<div class="row">
-		<div class="col">
-			<div class="card">
-				<div class="card-body">
-					<div class="d-flex align-items-center justify-content-between mb-2">
-						<div class="fw-medium user-select-none small text-secondary opacity-50">PASSWORD</div>
-						<a href="#" class="fw-medium small text-secondary opacity-50" id="CopyBtn">COPY</a>
-					</div>
-					<div id="password" class="user-select-none text-center fw-bold fs-3 font-monospace"></div>
-				</div>
-			</div>
-		</div>
+	<div class="values">
+		<p class="m-0">Lowercase Letters (e.g. a-z)</p>
+		<label class="switch">
+			<input type="checkbox" id="lowercase" checked>
+			<span class="slider round"></span>
+		</label>
 	</div>
-	<div class="row mt-3">
-		<div class="col">
-			<div class="d-flex justify-content-center">
-				<a href="#" class="btn btn-sm btn-secondary small" id="theme-changer"></a>
-			</div>
-		</div>
+	<div class="values">
+		<p class="m-0">Numbers (e.g. 0-9)</p>
+		<label class="switch">
+			<input type="checkbox" id="numbers">
+			<span class="slider round"></span>
+		</label>
 	</div>
-</div>
-<script src="vendor/bootstrap-5.3.0-alpha3/js/bootstrap.bundle.min.js"></script>
-<script src="script/theme-changer.js"></script>
+	<div class="values">
+		<p class="m-0">Symbols (e.g. $ % ^ & ) > < / ' " @)</p>
+		<label class="switch">
+			<input type="checkbox" id="symbols">
+			<span class="slider round"></span>
+		</label>
+	</div>
+	<div class="generate-btn">
+		<button class="btn btn-primary" id="GenerateBtnBottom">
+			<i class="bi bi-arrow-clockwise"></i>
+			Generate Password
+		</button>
+	</div>
+</main>
+
+
+
+
+
+
+<script src="vendor/bootstrap-5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="script/appFunction.js"></script>
 <script type="text/javascript" src="script/app.js"></script>
 </body>
 </html>
