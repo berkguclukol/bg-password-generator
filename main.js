@@ -3,8 +3,8 @@ const path = require("path");
 const ipc = ipcMain;
 const createWindow = () => {
 	const splash = new BrowserWindow({
-		width: 600,
-		height: 400,
+		width: 400,
+		height: 600,
 		transparent: true,
 		frame: false,
 		alwaysOnTop: true,
@@ -31,7 +31,7 @@ const createWindow = () => {
 	setTimeout(function () {
 		splash.close();
 		win.show();
-	}, 5000);
+	}, 3500);
     ipc.on("app/minimize", () => {
 		win.minimize();
 	});
