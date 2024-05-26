@@ -3,8 +3,8 @@ const path = require("path");
 const ipc = ipcMain;
 const createWindow = () => {
 	const splash = new BrowserWindow({
-		width: 500,
-		height: 300,
+		width: 600,
+		height: 400,
 		transparent: true,
 		frame: false,
 		alwaysOnTop: true,
@@ -13,11 +13,11 @@ const createWindow = () => {
 	splash.loadFile(path.join(__dirname, "public/splash.html"));
 	splash.center();
 	const win = new BrowserWindow({
-		width: 520,
-		height: 650,
+		width: 740,
+		height: 380,
 		maximizable: false,
 		autoHideMenuBar: true,
-		resizable: true,
+		resizable: false,
 		frame: false,
 		show: false,
 		webPreferences: {
