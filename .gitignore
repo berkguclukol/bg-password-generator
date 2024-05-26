@@ -1,7 +1,7 @@
 node_modules
 dist
 .idea
-/design-elements/
 package-lock.json
 /public/vendor/bootstrap-5.3.3/
 /public/vendor/bootstrap-icons-1.11.3/
+/design-elements/
