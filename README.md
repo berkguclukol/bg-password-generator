@@ -13,8 +13,7 @@ Install the dependencies and devDependencies and start the server.
 ```sh
 git clone https://github.com/berkguclukol/bg-password-generator.git
 cd bg-password-generator
-npm i
-npm update
+npm install
 npm start
 ```
 
