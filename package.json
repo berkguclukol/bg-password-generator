@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "watch": "npx tailwindcss -i ./public/vendor/tailwindcss/tailwind.base.css -o ./public/vendor/tailwindcss/tailwind.css --watch"
   },
   "repository": {
     "type": "git",
@@ -15,7 +16,8 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^30.0.8",
-    "electron-builder": "^24.13.3"
+    "electron-builder": "^24.13.3",
+    "tailwindcss": "^3.4.4"
   },
   "bugs": {
     "url": "https://github.com/berkguclukol/bg-password-generator/issues"
@@ -24,7 +26,7 @@
   "build": {
     "productName": "BG Password Generator",
     "win": {
-      "icon" : "public/assets/icon.ico",
+      "icon": "public/assets/icon.ico",
       "target": [
         {
           "target": "portable"
