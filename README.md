@@ -1,4 +1,4 @@
-# BG Password Generator
+# BG Password Generator 👋
 #### It is designed for personal use.
 
 You can quickly create a password by installing it as a portable or as a setup. The application works offline and does not require internet. Generated passwords are never stored anywhere and/or sent to a remote location.
