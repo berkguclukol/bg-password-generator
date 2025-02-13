@@ -24,8 +24,7 @@ npm run dist
 ```
 ## Screen Shot
 
-![APP SPLASH SCREEN](https://github.com/berkguclukol/bg-password-generator/blob/main/public/screenshot/desktop_app_splashscreen.jpg?raw=true)
-![APP UI](https://github.com/berkguclukol/bg-password-generator/blob/main/public/screenshot/desktop_app_screenshot.jpg?raw=true)
+![APP UI](https://github.com/berkguclukol/bg-password-generator/blob/main/public/screenshot/screenshot.png?raw=true)
 
 
 ## License
