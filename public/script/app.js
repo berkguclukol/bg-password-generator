@@ -1,6 +1,6 @@
 let generateBtn = document.getElementById("GenerateBtn");
 let generateBtnTop = document.getElementById("generateBtnTop");
-let copyBtn = document.getElementById("CopyBtn");
+//let copyBtn = document.getElementById("CopyBtn");
 let copyBtnTop = document.getElementById("copyBtnTop");
 let passwordArea = document.getElementById("password");
 let range_text = document.getElementById("range-text");
@@ -34,24 +34,7 @@ const randomFunc = {
   number: getRandomNumber,
   symbol: getRandomSymbol,
 };
-copyBtn.addEventListener("click", () => {
-  const textarea = document.createElement("textarea");
-  const password = passwordArea.innerText;
-  if (!password) {
-    return;
-  }
-  textarea.value = password;
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand("copy");
-  textarea.remove();
-  copyBtn.innerHTML = `Password Copied!`;
-  alertEl.classList.remove("hidden");
-  setTimeout(() => {
-    alertEl.classList.add("hidden");
-  }, 3000);
-  return false;
-});
+
 copyBtnTop.addEventListener("click", () => {
   const textarea = document.createElement("textarea");
   const password = passwordArea.innerText;
@@ -63,7 +46,6 @@ copyBtnTop.addEventListener("click", () => {
   textarea.select();
   document.execCommand("copy");
   textarea.remove();
-  copyBtn.innerHTML = `Password Copied!`;
   alertEl.classList.remove("hidden");
   setTimeout(() => {
     alertEl.classList.add("hidden");

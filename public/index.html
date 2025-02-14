@@ -5,40 +5,37 @@
 	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"/>
 	<meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
 	<title>BG Password Generator</title>
-	<link rel="stylesheet" href="vendor/tailwindcss/tailwind.css">
+	<link rel="stylesheet" href="src/output.css">
 </head>
-<body class="overflow-hidden">
-<div id="alertArea" class="hidden bg-green-700 p-3 fixed left-14 right-14 bottom-5 rounded-md text-green-200 border-2 border-green-800 flex items-center justify-center gap-2">
-	<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-		<path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-	</svg>
-	Password copied.
-</div>
-<main class="">
-	<div class="p-5 border-b-4 border-green-800 bg-green-200">
-		<div id="password" class="pb-5 font-mono select-none text-3xl font-semibold text-green-900"></div>
+<body class="overflow-hidden bg-slate-200">
+<main class="p-6">
+	<div class="bg-white p-6 rounded-md border-b-6 border-green-800 shadow-lg mb-6">
 		<div class="flex items-center justify-between">
-			<p id="strengthText" class="text-green-800 font-semibold"></p>
-			<div class="flex items-center gap-3">
-				<button title="Generate Password!" id="generateBtnTop" class="text-gray-700">
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+			<div id="password" class="font-mono select-none text-3xl font-semibold text-green-900"></div>
+			<div class="flex gap-3">
+				<button title="Generate Password!" id="generateBtnTop" class="text-gray-500 cursor-pointer">
+					<svg class="size-7" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+						<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4"/>
 					</svg>
 				</button>
-				<button id="copyBtnTop" title="Copy Password!" class="text-gray-700">
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+				<button id="copyBtnTop" title="Copy Password!" class="text-gray-500 cursor-pointer">
+					<svg class="size-7" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+						<path fill-rule="evenodd" d="M18 3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1V9a4 4 0 0 0-4-4h-3a1.99 1.99 0 0 0-1 .267V5a2 2 0 0 1 2-2h7Z" clip-rule="evenodd"/>
+						<path fill-rule="evenodd" d="M8 7.054V11H4.2a2 2 0 0 1 .281-.432l2.46-2.87A2 2 0 0 1 8 7.054ZM10 7v4a2 2 0 0 1-2 2H4v6a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3Z" clip-rule="evenodd"/>
 					</svg>
 				</button>
 			</div>
 		</div>
+		<div>
+			<p id="strengthText" class="text-gray-400 mt-2 font-regular text-sm"></p>
+		</div>
 	</div>
-	<div class="px-5 mt-2">
-		<p id="range-text" class="font-semibold">Password length: 20</p>
-	</div>
-	<div class="flex items-center gap-4 p-5">
-		<label for="length" class="sr-only">Labels range</label>
-		<input id="length" min="4" max="24" value="20" type="range" class="w-full bg-transparent cursor-pointer appearance-none disabled:opacity-50 disabled:pointer-events-none focus:outline-none
+	<div class="bg-white p-6 rounded-md shadow-lg">
+		<h2 class="font-bold text-lg mb-3">Customize your password.</h2>
+		<p id="range-text" class="font-semibold text-sm mb-3">Password length: 20</p>
+		<div class="flex items-center gap-4">
+			<label for="length" class="sr-only">Labels range</label>
+			<input id="length" min="4" max="24" value="18" type="range" class="w-full bg-transparent cursor-pointer appearance-none disabled:opacity-50 disabled:pointer-events-none focus:outline-none
   [&::-webkit-slider-thumb]:w-6
   [&::-webkit-slider-thumb]:h-6
   [&::-webkit-slider-thumb]:-mt-2
@@ -67,44 +64,44 @@
   [&::-moz-range-track]:h-2
   [&::-moz-range-track]:bg-gray-100
   [&::-moz-range-track]:rounded-full" aria-orientation="horizontal">
-	</div>
-	<div class="flex flex-col p-5 gap-9">
-		<label class="flex items-center justify-between cursor-pointer">
-			<span class="font-semibold">Uppercase Letters (e.g. A-Z)</span>
-			<input type="checkbox" checked id="uppercase" class="sr-only peer">
-			<div class="relative w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
-		</label>
-		<label class="flex items-center justify-between cursor-pointer">
-			<span class="font-semibold">Lowercase Letters (e.g. a-z))</span>
-			<input type="checkbox" checked id="lowercase" class="sr-only peer">
-			<div class="relative w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
-		</label>
-		<label class="flex items-center justify-between cursor-pointer">
-			<span class="font-semibold">Numbers (e.g. 0-9)</span>
-			<input type="checkbox" checked id="numbers" class="sr-only peer">
-			<div class="relative w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
-		</label>
-		<label class="flex items-center justify-between cursor-pointer">
-			<span class="font-semibold">Symbols (e.g. $ % ^ & ) > < / ' " @)</span>
-			<input type="checkbox" id="symbols" class="sr-only peer">
-			<div class="relative w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
-		</label>
-	</div>
-	<div class="px-5 pb-5 flex">
-		<button class="px-6 py-3 hover:bg-green-900 bg-green-800 text-slate-100 rounded-full flex items-center justify-center gap-2 font-semibold w-full" id="GenerateBtn" title="Generate Password!">
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+		</div>
+		<div class="grid grid-cols-2 gap-5 mt-6">
+			<label class="flex items-center justify-between cursor-pointer mb-2">
+				<span class="font-semibold text-sm">Uppercase Letters (e.g. A-Z)</span>
+				<input type="checkbox" checked id="uppercase" class="sr-only peer">
+				<div class="relative w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+			</label>
+			<label class="flex items-center justify-between cursor-pointer mb-2">
+				<span class="font-semibold text-sm">Lowercase Letters (e.g. a-z))</span>
+				<input type="checkbox" checked id="lowercase" class="sr-only peer">
+				<div class="relative w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+			</label>
+			<label class="flex items-center justify-between cursor-pointer mb-2">
+				<span class="font-semibold text-sm">Numbers (e.g. 0-9)</span>
+				<input type="checkbox" checked id="numbers" class="sr-only peer">
+				<div class="relative w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+			</label>
+			<label class="flex items-center justify-between cursor-pointer mb-2">
+				<span class="font-semibold text-sm">Symbols (e.g. $ % ^ & ))</span>
+				<input type="checkbox" checked id="symbols" class="sr-only peer">
+				<div class="relative w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+			</label>
+		</div>
+		<button class="cursor-pointer mt-5 font-semibold px-5 py-2 hover:bg-green-900 bg-green-800 text-slate-100 rounded-md flex items-center justify-center gap-2 w-full" id="GenerateBtn" title="Generate Password!">
+			<svg class="size-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+				<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4"/>
 			</svg>
 			Generate Password
 		</button>
 	</div>
-	<div class="px-5">
-		<button id="CopyBtn" title="Copy Password!" class="px-4 py-2 bg-slate-300 hover:bg-slate-400 text-slate-900 text-sm rounded-full flex items-center justify-center gap-2 w-full">
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5A3.375 3.375 0 0 0 6.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0 0 15 2.25h-1.5a2.251 2.251 0 0 0-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 0 0-9-9Z" />
-			</svg>
-			Copy Password
-		</button>
+	<div id="alertArea" class="hidden fixed left-9 bottom-4 right-9 mt-5 flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">
+		<svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+			<path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+		</svg>
+		<span class="sr-only">Info</span>
+		<div>
+			<span class="font-medium">Operation successful!</span> Copied value to the clipboard.
+		</div>
 	</div>
 </main>
 
