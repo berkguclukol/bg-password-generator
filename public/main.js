@@ -6,8 +6,10 @@ const createWindow = () => {
 	const win = new BrowserWindow({
 		width: 620,
 		height: 525,
+		minWidth:620,
+		minHeight: 525,
 		autoHideMenuBar: true,
-		resizable: false,
+		resizable: true,
 		webPreferences: {
 			nodeIntegration: true,
 			contextIsolation: false,
@@ -15,7 +17,7 @@ const createWindow = () => {
 		},
 	});
 	win.setIcon(path.join(__dirname, "icon.png"));
-	win.loadFile(path.join(__dirname, "public/index.html"));
+	win.loadFile(path.join(__dirname, "index.html"));
 	win.show();
 };
 
