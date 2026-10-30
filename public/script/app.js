@@ -28,11 +28,11 @@ function rangeChange(evtType) {
 
   });
 }
-const randomFunc = {
-  lower: getRandomLower,
-  upper: getRandomUpper,
-  number: getRandomNumber,
-  symbol: getRandomSymbol,
+const charSets = {
+  lower: "abcdefghijklmnopqrstuvwxyz",
+  upper: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  number: "0123456789",
+  symbol: "!@#$%^&*(){}[]=<>/,.",
 };
 
 copyBtnTop.addEventListener("click", () => {
@@ -76,38 +76,34 @@ generateBtnTop.addEventListener("click", () => {
 });
 
 function generatePassword(lower, upper, number, symbol, length) {
-  let generatedPassword = "";
-  const typesCount = lower + upper + number + symbol;
-  const typesArr = [{ lower }, { upper }, { number }, { symbol }].filter(
-      (item) => Object.values(item)[0]
-  );
-  if (typesCount === 0) {
+  const selectedSets = Object.entries({ lower, upper, number, symbol })
+      .filter(([, enabled]) => enabled)
+      .map(([name]) => charSets[name]);
+  if (selectedSets.length === 0) {
     return "";
   }
-  for (let i = 0; i < length; i += typesCount) {
-    typesArr.forEach((type) => {
-      const funcName = Object.keys(type)[0];
-      generatedPassword += randomFunc[funcName]();
-    });
+  const pool = selectedSets.join("");
+  // Guarantee at least one character from every selected type
+  const chars = selectedSets.map((set) => set[getRandomInt(set.length)]);
+  while (chars.length < length) {
+    chars.push(pool[getRandomInt(pool.length)]);
   }
-  return generatedPassword.slice(0, length);
+  // Fisher-Yates shuffle so character types don't sit at fixed positions
+  for (let i = chars.length - 1; i > 0; i--) {
+    const j = getRandomInt(i + 1);
+    [chars[i], chars[j]] = [chars[j], chars[i]];
+  }
+  return chars.slice(0, length).join("");
 }
 
-function getRandomLower() {
-  return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
-}
-
-function getRandomUpper() {
-  return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
-}
-
-function getRandomNumber() {
-  return +String.fromCharCode(Math.floor(Math.random() * 10) + 48);
-}
-
-function getRandomSymbol() {
-  const symbols = "!@#$%^&*(){}[]=<>/,.";
-  return symbols[Math.floor(Math.random() * symbols.length)];
+// Uniform integer in [0, max) from a CSPRNG, using rejection sampling to avoid modulo bias
+function getRandomInt(max) {
+  const limit = Math.floor(0x100000000 / max) * max;
+  const buffer = new Uint32Array(1);
+  do {
+    crypto.getRandomValues(buffer);
+  } while (buffer[0] >= limit);
+  return buffer[0] % max;
 }
 function printStrongNess(input_string) {
   const n = input_string.length;
