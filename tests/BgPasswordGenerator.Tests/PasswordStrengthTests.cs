@@ -12,7 +12,7 @@ public class PasswordStrengthTests
     [InlineData("abcDEF123456", Strength.Weak)]
     [InlineData("12345!!!!", Strength.Weak)]
     [InlineData("", Strength.Weak)]
-    public void MatchesElectronRules(string password, Strength expected)
+    public void MatchesStrengthRules(string password, Strength expected)
     {
         Assert.Equal(expected, PasswordStrength.Evaluate(password));
     }

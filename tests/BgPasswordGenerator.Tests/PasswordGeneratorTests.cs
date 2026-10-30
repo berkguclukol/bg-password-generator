@@ -51,7 +51,7 @@ public class PasswordGeneratorTests
     [Fact]
     public void FirstCharacterTypeIsNotFixed()
     {
-        // The old Electron generator always started with a lowercase letter
+        // Guards against a fixed type order (e.g. always starting with a lowercase letter)
         var firstTypes = new HashSet<int>();
         for (var run = 0; run < 500; run++)
         {

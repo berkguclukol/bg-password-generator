@@ -9,7 +9,7 @@ public enum Strength
 
 public static class PasswordStrength
 {
-    // Same rules as the Electron version's printStrongNess()
+    // Strong: all four types and 8+ chars. Moderate: a letter, a symbol and 6+ chars.
     public static Strength Evaluate(string password)
     {
         var hasLower = password.Any(c => c is >= 'a' and <= 'z');
