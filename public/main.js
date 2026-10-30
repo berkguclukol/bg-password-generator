@@ -4,12 +4,12 @@ const CLIPBOARD_CLEAR_MS = 30000;
 let lastCopied = null;
 
 // Clear the clipboard only if it still holds our password, so later copies by the user aren't wiped
-const clearClipboardIfOurs = (text) => {
-	if (clipboard.readText() === text) clipboard.clear();
+const clearClipboardIfOurs = async (text) => {
+	if ((await clipboard.readText()) === text) clipboard.clear();
 };
 
-ipcMain.handle("clipboard:copy", (event, text) => {
-	clipboard.writeText(text);
+ipcMain.handle("clipboard:copy", async (event, text) => {
+	await clipboard.writeText(text);
 	lastCopied = text;
 	setTimeout(() => clearClipboardIfOurs(text), CLIPBOARD_CLEAR_MS);
 });
@@ -41,8 +41,13 @@ app.whenReady().then(() => {
 		if (BrowserWindow.getAllWindows().length === 0) createWindow();
 	});
 });
-app.on("before-quit", () => {
-	if (lastCopied) clearClipboardIfOurs(lastCopied);
+// Clipboard reads are async, so hold the quit until the check finishes, then quit again
+let clipboardCheckedOnQuit = false;
+app.on("before-quit", (event) => {
+	if (!lastCopied || clipboardCheckedOnQuit) return;
+	event.preventDefault();
+	clipboardCheckedOnQuit = true;
+	clearClipboardIfOurs(lastCopied).finally(() => app.quit());
 });
 app.on("window-all-closed", () => {
 	if (process.platform !== "darwin") app.quit();

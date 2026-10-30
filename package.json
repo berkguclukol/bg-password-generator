@@ -15,7 +15,7 @@
   "author": "Berk Guclukol",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^35.1.5",
+    "electron": "^45.1.0",
     "electron-builder": "^26.0.12"
   },
   "dependencies": {
