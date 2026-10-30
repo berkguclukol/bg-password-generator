@@ -16,6 +16,8 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+# powershell -File passes "a,b,c" as one string; accept that as well as a real array
+$Runtimes = $Runtimes -split "," | ForEach-Object { $_.Trim() } | Where-Object { $_ }
 $root = $PSScriptRoot
 $project = Join-Path $root "src/BgPasswordGenerator/BgPasswordGenerator.csproj"
 
