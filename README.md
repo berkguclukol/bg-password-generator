@@ -26,13 +26,27 @@ dotnet test
 dotnet run --project src/BgPasswordGenerator
 ```
 
-To create a package:
+## Packaging
+
+Setup and portable packages are built with [Velopack](https://velopack.io). Install its CLI once, matching the `Velopack` package version in the app project:
 
 ```sh
-dotnet publish src/BgPasswordGenerator -c Release -r win-x64 -o publish
+dotnet tool install -g vpk --version 1.2.158
 ```
 
-The `publish` folder is self-contained and runs without installing .NET or the Windows App Runtime.
+Then run the build script, which tests, publishes and packages the app:
+
+```powershell
+./build.ps1                                   # win-x64
+./build.ps1 -Runtimes win-x64, win-x86, win-arm64
+```
+
+Output in `Releases/<runtime>/`:
+
+- `BgPasswordGenerator-<runtime>-Setup.exe` — per-user install (no admin), with Desktop and Start Menu shortcuts and an uninstall entry in Apps & features
+- `BgPasswordGenerator-<runtime>-Portable.zip` — extract anywhere and run `BG Password Generator.exe`
+
+Both are self-contained and run without installing .NET or the Windows App Runtime. The release version comes from `<Version>` in `src/BgPasswordGenerator/BgPasswordGenerator.csproj`.
 
 ## Screen Shot
 
