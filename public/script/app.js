@@ -1,6 +1,5 @@
 let generateBtn = document.getElementById("GenerateBtn");
 let generateBtnTop = document.getElementById("generateBtnTop");
-//let copyBtn = document.getElementById("CopyBtn");
 let copyBtnTop = document.getElementById("copyBtnTop");
 let passwordArea = document.getElementById("password");
 let range_text = document.getElementById("range-text");
@@ -14,19 +13,13 @@ const strengthTextEl = document.getElementById("strengthText");
 const alertEl = document.getElementById("alertArea");
 
 
-rangeChange("mousedown");
-rangeChange("mousemove");
-rangeChange("keydown");
-range_text.innerHTML = `Password length : ${lengthEl.value}`;
+// "input" fires for mouse drags, keyboard and touch alike
+lengthEl.addEventListener("input", updateRangeText);
+updateRangeText();
 
-function rangeChange(evtType) {
-  lengthEl.addEventListener(evtType, function () {
-    window.requestAnimationFrame(function () {
-      range_text.innerHTML = `Password length : ${lengthEl.value}`;
-      lengthEl.setAttribute("aria-valuenow", lengthEl.value);
-    });
-
-  });
+function updateRangeText() {
+  range_text.innerHTML = `Password length : ${lengthEl.value}`;
+  lengthEl.setAttribute("aria-valuenow", lengthEl.value);
 }
 const charSets = {
   lower: "abcdefghijklmnopqrstuvwxyz",
@@ -49,7 +42,7 @@ copyBtnTop.addEventListener("click", async () => {
 });
 
 
-generateBtn.addEventListener("click", () => {
+function renderPassword() {
   passwordArea.innerText = generatePassword(
       lowercaseEl.checked,
       uppercaseEl.checked,
@@ -58,17 +51,9 @@ generateBtn.addEventListener("click", () => {
       +lengthEl.value
   );
   strengthTextEl.innerHTML = printStrongNess(passwordArea.innerText);
-});
-generateBtnTop.addEventListener("click", () => {
-  passwordArea.innerText = generatePassword(
-      lowercaseEl.checked,
-      uppercaseEl.checked,
-      numbersEl.checked,
-      symbolsEl.checked,
-      +lengthEl.value
-  );
-  strengthTextEl.innerHTML = printStrongNess(passwordArea.innerText);
-});
+}
+generateBtn.addEventListener("click", renderPassword);
+generateBtnTop.addEventListener("click", renderPassword);
 
 function generatePassword(lower, upper, number, symbol, length) {
   const selectedSets = Object.entries({ lower, upper, number, symbol })
