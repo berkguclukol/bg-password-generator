@@ -35,17 +35,12 @@ const charSets = {
   symbol: "!@#$%^&*(){}[]=<>/,.",
 };
 
-copyBtnTop.addEventListener("click", () => {
-  const textarea = document.createElement("textarea");
+copyBtnTop.addEventListener("click", async () => {
   const password = passwordArea.innerText;
   if (!password) {
     return;
   }
-  textarea.value = password;
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand("copy");
-  textarea.remove();
+  await window.clipboardApi.copy(password);
   alertEl.classList.remove("hidden");
   setTimeout(() => {
     alertEl.classList.add("hidden");
