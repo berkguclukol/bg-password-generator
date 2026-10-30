@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="BgPasswordGenerator.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="BG Password Generator">
+
+    <Window.SystemBackdrop>
+        <MicaBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="AppTitleBar" Height="40" Padding="16,0,0,0">
+            <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                <Image Source="ms-appx:///Assets/icon.ico" Width="16" Height="16" />
+                <TextBlock Text="BG Password Generator" Style="{StaticResource CaptionTextBlockStyle}" />
+            </StackPanel>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Width="600" HorizontalAlignment="Center" Padding="24,8,24,24" Spacing="16">
+
+                <!-- Generated password -->
+                <Border
+                    Padding="20"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <Grid ColumnSpacing="8" RowSpacing="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            x:Name="PasswordText"
+                            VerticalAlignment="Center"
+                            FontFamily="Cascadia Mono, Consolas"
+                            FontSize="26"
+                            FontWeight="SemiBold"
+                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                            TextTrimming="CharacterEllipsis"
+                            AutomationProperties.AutomationId="PasswordText" />
+                        <Button
+                            x:Name="RegenerateButton"
+                            Grid.Column="1"
+                            Click="OnGenerateClick"
+                            Style="{StaticResource SubtleButtonStyle}"
+                            ToolTipService.ToolTip="Generate password"
+                            AutomationProperties.Name="Generate password">
+                            <FontIcon Glyph="&#xE72C;" FontSize="18" />
+                        </Button>
+                        <Button
+                            x:Name="CopyButton"
+                            Grid.Column="2"
+                            Click="OnCopyClick"
+                            Style="{StaticResource SubtleButtonStyle}"
+                            ToolTipService.ToolTip="Copy password"
+                            AutomationProperties.Name="Copy password">
+                            <FontIcon Glyph="&#xE8C8;" FontSize="18" />
+                        </Button>
+                        <TextBlock
+                            x:Name="StrengthText"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="3"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}" />
+                    </Grid>
+                </Border>
+
+                <!-- Options -->
+                <Border
+                    Padding="20"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Customize your password." Style="{StaticResource SubtitleTextBlockStyle}" />
+                        <TextBlock x:Name="LengthText" Style="{StaticResource BodyStrongTextBlockStyle}" />
+                        <Slider
+                            x:Name="LengthSlider"
+                            StepFrequency="1"
+                            AutomationProperties.Name="Password length" />
+
+                        <Grid ColumnSpacing="24" RowSpacing="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <ToggleSwitch x:Name="UppercaseToggle" Header="Uppercase letters (A-Z)" IsOn="True" OnContent="" OffContent="" />
+                            <ToggleSwitch x:Name="LowercaseToggle" Grid.Column="1" Header="Lowercase letters (a-z)" IsOn="True" OnContent="" OffContent="" />
+                            <ToggleSwitch x:Name="NumbersToggle" Grid.Row="1" Header="Numbers (0-9)" IsOn="True" OnContent="" OffContent="" />
+                            <ToggleSwitch x:Name="SymbolsToggle" Grid.Row="1" Grid.Column="1" Header="Symbols (e.g. $ % ^ &amp;)" IsOn="True" OnContent="" OffContent="" />
+                        </Grid>
+
+                        <Button
+                            x:Name="GenerateButton"
+                            HorizontalAlignment="Stretch"
+                            Click="OnGenerateClick"
+                            Style="{StaticResource AccentButtonStyle}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon Glyph="&#xE72C;" FontSize="16" />
+                                <TextBlock Text="Generate Password" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <InfoBar
+                    x:Name="CopiedInfoBar"
+                    Title="Copied"
+                    IsClosable="False"
+                    Message="Copied to the clipboard. It will be cleared in 30 seconds."
+                    Severity="Success" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>
