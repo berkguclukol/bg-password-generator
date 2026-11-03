@@ -205,6 +205,7 @@
                             <HyperlinkButton Content="GitHub repository" NavigateUri="https://github.com/berkguclukol/bg-password-generator" />
                             <HyperlinkButton Content="Release notes" NavigateUri="https://github.com/berkguclukol/bg-password-generator/releases" />
                             <HyperlinkButton Content="Report an issue" NavigateUri="https://github.com/berkguclukol/bg-password-generator/issues" />
+                            <HyperlinkButton Content="Privacy" NavigateUri="https://github.com/berkguclukol/bg-password-generator/blob/main/PRIVACY.md" />
                         </StackPanel>
 
                         <TextBlock

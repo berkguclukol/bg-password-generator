@@ -10,6 +10,8 @@ A native Windows app for quickly creating passwords and random UUIDs. The genera
 - Random UUIDs (version 4), optionally uppercase or without hyphens. UUIDs are copied normally since they aren't secrets.
 - Updates from GitHub: on startup an installed copy checks this repository's latest release and offers to update and restart. The update check is the app's only network request; it sends nothing but the request itself, and the app works normally when offline. The About page shows the version, project links and a manual "Check for updates" button.
 
+See [PRIVACY.md](PRIVACY.md) for exactly what the app does with your data, the clipboard and the network.
+
 ## Tech
 ![App Tech](https://skillicons.dev/icons?i=cs,dotnet,windows)
 
