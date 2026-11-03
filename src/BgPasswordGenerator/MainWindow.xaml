@@ -19,13 +19,32 @@
             <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
                 <Image Source="ms-appx:///Assets/icon.ico" Width="16" Height="16" />
                 <TextBlock Text="BG Password Generator" Style="{StaticResource CaptionTextBlockStyle}" />
+                <TextBlock
+                    x:Name="VersionText"
+                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    AutomationProperties.AutomationId="VersionText" />
             </StackPanel>
         </Grid>
 
         <ScrollViewer Grid.Row="1">
-            <StackPanel Width="600" HorizontalAlignment="Center" Padding="24,8,24,24" Spacing="16">
+            <StackPanel Width="600" HorizontalAlignment="Center" Padding="24,0,24,24" Spacing="16">
 
-                <!-- Generated password -->
+                <InfoBar
+                    x:Name="UpdateInfoBar"
+                    Title="Update available"
+                    Severity="Informational">
+                    <InfoBar.ActionButton>
+                        <Button x:Name="UpdateButton" Content="Update and restart" Click="OnUpdateClick" />
+                    </InfoBar.ActionButton>
+                </InfoBar>
+
+                <SelectorBar x:Name="ModeSelector" AutomationProperties.Name="Generator type">
+                    <SelectorBarItem x:Name="PasswordModeItem" Text="Password" IsSelected="True" />
+                    <SelectorBarItem x:Name="UuidModeItem" Text="UUID" />
+                </SelectorBar>
+
+                <!-- Generated value -->
                 <Border
                     Padding="20"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -44,21 +63,21 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock
-                            x:Name="PasswordText"
+                            x:Name="ResultText"
                             VerticalAlignment="Center"
                             FontFamily="Cascadia Mono, Consolas"
                             FontSize="26"
                             FontWeight="SemiBold"
                             Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                             TextTrimming="CharacterEllipsis"
-                            AutomationProperties.AutomationId="PasswordText" />
+                            AutomationProperties.AutomationId="ResultText" />
                         <Button
                             x:Name="RegenerateButton"
                             Grid.Column="1"
                             Click="OnGenerateClick"
                             Style="{StaticResource SubtleButtonStyle}"
-                            ToolTipService.ToolTip="Generate password"
-                            AutomationProperties.Name="Generate password">
+                            ToolTipService.ToolTip="Generate again"
+                            AutomationProperties.Name="Generate again">
                             <FontIcon Glyph="&#xE72C;" FontSize="18" />
                         </Button>
                         <Button
@@ -66,16 +85,17 @@
                             Grid.Column="2"
                             Click="OnCopyClick"
                             Style="{StaticResource SubtleButtonStyle}"
-                            ToolTipService.ToolTip="Copy password"
-                            AutomationProperties.Name="Copy password">
+                            ToolTipService.ToolTip="Copy"
+                            AutomationProperties.Name="Copy">
                             <FontIcon Glyph="&#xE8C8;" FontSize="18" />
                         </Button>
                         <TextBlock
-                            x:Name="StrengthText"
+                            x:Name="DetailText"
                             Grid.Row="1"
                             Grid.ColumnSpan="3"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{StaticResource CaptionTextBlockStyle}" />
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            AutomationProperties.AutomationId="DetailText" />
                     </Grid>
                 </Border>
 
@@ -87,26 +107,38 @@
                     BorderThickness="1"
                     CornerRadius="8">
                     <StackPanel Spacing="12">
-                        <TextBlock Text="Customize your password." Style="{StaticResource SubtitleTextBlockStyle}" />
-                        <TextBlock x:Name="LengthText" Style="{StaticResource BodyStrongTextBlockStyle}" />
-                        <Slider
-                            x:Name="LengthSlider"
-                            StepFrequency="1"
-                            AutomationProperties.Name="Password length" />
+                        <TextBlock x:Name="OptionsTitle" Style="{StaticResource SubtitleTextBlockStyle}" />
 
-                        <Grid ColumnSpacing="24" RowSpacing="4">
+                        <StackPanel x:Name="PasswordOptions" Spacing="12">
+                            <TextBlock x:Name="LengthText" Style="{StaticResource BodyStrongTextBlockStyle}" />
+                            <Slider
+                                x:Name="LengthSlider"
+                                StepFrequency="1"
+                                AutomationProperties.Name="Password length" />
+
+                            <Grid ColumnSpacing="24" RowSpacing="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <ToggleSwitch x:Name="UppercaseToggle" Header="Uppercase letters (A-Z)" IsOn="True" OnContent="" OffContent="" />
+                                <ToggleSwitch x:Name="LowercaseToggle" Grid.Column="1" Header="Lowercase letters (a-z)" IsOn="True" OnContent="" OffContent="" />
+                                <ToggleSwitch x:Name="NumbersToggle" Grid.Row="1" Header="Numbers (0-9)" IsOn="True" OnContent="" OffContent="" />
+                                <ToggleSwitch x:Name="SymbolsToggle" Grid.Row="1" Grid.Column="1" Header="Symbols (e.g. $ % ^ &amp;)" IsOn="True" OnContent="" OffContent="" />
+                            </Grid>
+                        </StackPanel>
+
+                        <Grid x:Name="UuidOptions" ColumnSpacing="24" Visibility="Collapsed">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <ToggleSwitch x:Name="UppercaseToggle" Header="Uppercase letters (A-Z)" IsOn="True" OnContent="" OffContent="" />
-                            <ToggleSwitch x:Name="LowercaseToggle" Grid.Column="1" Header="Lowercase letters (a-z)" IsOn="True" OnContent="" OffContent="" />
-                            <ToggleSwitch x:Name="NumbersToggle" Grid.Row="1" Header="Numbers (0-9)" IsOn="True" OnContent="" OffContent="" />
-                            <ToggleSwitch x:Name="SymbolsToggle" Grid.Row="1" Grid.Column="1" Header="Symbols (e.g. $ % ^ &amp;)" IsOn="True" OnContent="" OffContent="" />
+                            <ToggleSwitch x:Name="UuidUppercaseToggle" Header="Uppercase (A-F)" OnContent="" OffContent="" />
+                            <ToggleSwitch x:Name="UuidHyphensToggle" Grid.Column="1" Header="Hyphens" IsOn="True" OnContent="" OffContent="" />
                         </Grid>
 
                         <Button
@@ -116,7 +148,7 @@
                             Style="{StaticResource AccentButtonStyle}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <FontIcon Glyph="&#xE72C;" FontSize="16" />
-                                <TextBlock Text="Generate Password" />
+                                <TextBlock x:Name="GenerateButtonText" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -126,7 +158,6 @@
                     x:Name="CopiedInfoBar"
                     Title="Copied"
                     IsClosable="False"
-                    Message="Copied to the clipboard. It will be cleared in 30 seconds."
                     Severity="Success" />
             </StackPanel>
         </ScrollViewer>

@@ -27,6 +27,17 @@ internal sealed class ClipboardGuard
         _ = ClearLaterAsync(text);
     }
 
+    /// <summary>
+    /// Copies non-secret text (such as a UUID) normally: kept in history and left on the clipboard after exit.
+    /// </summary>
+    public static void CopyPlain(string text)
+    {
+        var package = new DataPackage();
+        package.SetText(text);
+        Clipboard.SetContent(package);
+        Clipboard.Flush();
+    }
+
     public Task ClearLastCopiedIfStillThereAsync() =>
         _lastCopied is null ? Task.CompletedTask : ClearIfOursAsync(_lastCopied);
 

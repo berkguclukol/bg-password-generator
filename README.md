@@ -1,17 +1,19 @@
 # BG Password Generator 👋
 #### It is designed for personal use.
 
-A native Windows app for quickly creating passwords. The application works offline and does not require internet. Generated passwords are never stored anywhere and/or sent to a remote location.
+A native Windows app for quickly creating passwords and random UUIDs. The generator works offline and does not require internet. Generated passwords are never stored anywhere and/or sent to a remote location.
 
 - Passwords are generated with a cryptographically secure random number generator, contain every selected character type and are shuffled.
 - Copied passwords are kept out of Windows clipboard history (Win+V) and cloud clipboard sync, and are cleared after 30 seconds or when the window closes, unless something else was copied since.
+- Random UUIDs (version 4), optionally uppercase or without hyphens. UUIDs are copied normally since they aren't secrets.
+- Updates from GitHub: on startup an installed copy checks this repository's latest release and offers to update and restart. This is the app's only network request; it sends nothing but the request itself, and the app works normally when offline.
 
 ## Tech
 ![App Tech](https://skillicons.dev/icons?i=cs,dotnet,windows)
 
 WinUI 3 (Windows App SDK) on .NET 10.
 
-- `src/BgPasswordGenerator.Core` — password generation and strength rules (plain .NET, no UI)
+- `src/BgPasswordGenerator.Core` — password and UUID generation, strength rules (plain .NET, no UI)
 - `src/BgPasswordGenerator` — WinUI 3 app, unpackaged and self-contained
 - `tests/BgPasswordGenerator.Tests` — xUnit tests for the core library
 
@@ -47,6 +49,16 @@ Output in `Releases/<runtime>/`:
 - `BgPasswordGenerator-<runtime>-Portable.zip` — extract anywhere and run `BG Password Generator.exe`
 
 Both are self-contained and run without installing .NET or the Windows App Runtime. The release version comes from `<Version>` in `src/BgPasswordGenerator/BgPasswordGenerator.csproj`.
+
+### Publishing a release
+
+Bump `<Version>`, write the release notes to a file and run:
+
+```powershell
+./build.ps1 -Runtimes win-x64, win-x86, win-arm64 -Publish -NotesFile notes.md
+```
+
+This needs the [GitHub CLI](https://cli.github.com) signed in. It creates a GitHub release named after the version with the installers plus the update files (`releases.<runtime>.json` and `.nupkg` packages) that installed copies use to update themselves. Keep the `Releases/` folder between versions so vpk can build small delta updates from the previous package.
 
 ## Screen Shot
 
