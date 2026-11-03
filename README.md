@@ -1,3 +1,5 @@
+<img src="src/BgPasswordGenerator/Assets/logo.svg" alt="BG Password Generator logo" width="96">
+
 # BG Password Generator 👋
 #### It is designed for personal use.
 

@@ -17,7 +17,7 @@
 
         <Grid x:Name="AppTitleBar" Height="40" Padding="16,0,0,0">
             <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
-                <Image Source="ms-appx:///Assets/icon.ico" Width="16" Height="16" />
+                <Image Source="ms-appx:///Assets/logo.svg" Width="16" Height="16" />
                 <TextBlock Text="BG Password Generator" Style="{StaticResource CaptionTextBlockStyle}" />
                 <TextBlock
                     x:Name="VersionText"
@@ -175,7 +175,7 @@
                     Visibility="Collapsed">
                     <StackPanel Spacing="16">
                         <StackPanel Orientation="Horizontal" Spacing="16">
-                            <Image Source="ms-appx:///Assets/icon.ico" Width="48" Height="48" />
+                            <Image Source="ms-appx:///Assets/logo.svg" Width="48" Height="48" />
                             <StackPanel VerticalAlignment="Center" Spacing="2">
                                 <TextBlock Text="BG Password Generator" Style="{StaticResource SubtitleTextBlockStyle}" />
                                 <TextBlock
