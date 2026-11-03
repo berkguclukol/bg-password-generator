@@ -28,7 +28,9 @@ public sealed partial class MainWindow : Window
         SetTitleBar(AppTitleBar);
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets", "icon.ico"));
         SizeWindow();
-        VersionText.Text = $"v{typeof(MainWindow).Assembly.GetName().Version?.ToString(3)}";
+        var version = typeof(MainWindow).Assembly.GetName().Version?.ToString(3);
+        VersionText.Text = $"v{version}";
+        AboutVersionText.Text = $"Version {version}";
 
         LengthSlider.Minimum = PasswordGenerator.MinLength;
         LengthSlider.Maximum = PasswordGenerator.MaxLength;
@@ -46,10 +48,12 @@ public sealed partial class MainWindow : Window
         AppWindow.Closing += OnClosing;
 
         ApplyMode();
-        _ = CheckForUpdatesAsync();
+        _ = CheckForUpdatesAsync(userInitiated: false);
     }
 
     private bool IsUuidMode => ModeSelector.SelectedItem == UuidModeItem;
+
+    private bool IsAboutMode => ModeSelector.SelectedItem == AboutModeItem;
 
     private void SizeWindow()
     {
@@ -67,6 +71,13 @@ public sealed partial class MainWindow : Window
 
     private void ApplyMode()
     {
+        GeneratorPanel.Visibility = IsAboutMode ? Visibility.Collapsed : Visibility.Visible;
+        AboutPanel.Visibility = IsAboutMode ? Visibility.Visible : Visibility.Collapsed;
+        if (IsAboutMode)
+        {
+            return;
+        }
+
         var uuid = IsUuidMode;
         PasswordOptions.Visibility = uuid ? Visibility.Collapsed : Visibility.Visible;
         UuidOptions.Visibility = uuid ? Visibility.Visible : Visibility.Collapsed;
@@ -123,27 +134,57 @@ public sealed partial class MainWindow : Window
         _copiedNoticeTimer.Start();
     }
 
-    private async Task CheckForUpdatesAsync()
+    // The startup check stays silent; a check from the About page reports every outcome
+    private async Task CheckForUpdatesAsync(bool userInitiated)
     {
         if (!_updater.CanUpdate)
         {
+            if (userInitiated)
+            {
+                UpdateStatusText.Text = "Updates are available for installed copies only.";
+            }
             return;
+        }
+
+        if (userInitiated)
+        {
+            CheckUpdatesButton.IsEnabled = false;
+            UpdateStatusText.Text = "Checking for updates…";
         }
         try
         {
             var version = await _updater.CheckAsync();
             if (version is null)
             {
+                if (userInitiated)
+                {
+                    UpdateStatusText.Text = "You're using the latest version.";
+                }
                 return;
             }
             UpdateInfoBar.Message = $"Version {version} is available.";
             UpdateInfoBar.IsOpen = true;
+            if (userInitiated)
+            {
+                UpdateStatusText.Text = $"Version {version} is available.";
+            }
         }
         catch (Exception)
         {
-            // Offline or GitHub unreachable: the generator works fine without updates, so stay quiet
+            // Offline or GitHub unreachable: the generator works fine without updates
+            if (userInitiated)
+            {
+                UpdateStatusText.Text = "Couldn't reach GitHub. Check your connection and try again.";
+            }
+        }
+        finally
+        {
+            CheckUpdatesButton.IsEnabled = true;
         }
     }
+
+    private async void OnCheckUpdatesClick(object sender, RoutedEventArgs e) =>
+        await CheckForUpdatesAsync(userInitiated: true);
 
     private async void OnUpdateClick(object sender, RoutedEventArgs e)
     {

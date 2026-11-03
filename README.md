@@ -6,7 +6,7 @@ A native Windows app for quickly creating passwords and random UUIDs. The genera
 - Passwords are generated with a cryptographically secure random number generator, contain every selected character type and are shuffled.
 - Copied passwords are kept out of Windows clipboard history (Win+V) and cloud clipboard sync, and are cleared after 30 seconds or when the window closes, unless something else was copied since.
 - Random UUIDs (version 4), optionally uppercase or without hyphens. UUIDs are copied normally since they aren't secrets.
-- Updates from GitHub: on startup an installed copy checks this repository's latest release and offers to update and restart. This is the app's only network request; it sends nothing but the request itself, and the app works normally when offline.
+- Updates from GitHub: on startup an installed copy checks this repository's latest release and offers to update and restart. The update check is the app's only network request; it sends nothing but the request itself, and the app works normally when offline. The About page shows the version, project links and a manual "Check for updates" button.
 
 ## Tech
 ![App Tech](https://skillicons.dev/icons?i=cs,dotnet,windows)

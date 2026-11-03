@@ -39,126 +39,180 @@
                     </InfoBar.ActionButton>
                 </InfoBar>
 
-                <SelectorBar x:Name="ModeSelector" AutomationProperties.Name="Generator type">
+                <SelectorBar x:Name="ModeSelector" AutomationProperties.Name="Sections">
                     <SelectorBarItem x:Name="PasswordModeItem" Text="Password" IsSelected="True" />
                     <SelectorBarItem x:Name="UuidModeItem" Text="UUID" />
+                    <SelectorBarItem x:Name="AboutModeItem" Text="About" />
                 </SelectorBar>
 
-                <!-- Generated value -->
-                <Border
-                    Padding="20"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <Grid ColumnSpacing="8" RowSpacing="6">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
+                <StackPanel x:Name="GeneratorPanel" Spacing="16">
 
-                        <TextBlock
-                            x:Name="ResultText"
-                            VerticalAlignment="Center"
-                            FontFamily="Cascadia Mono, Consolas"
-                            FontSize="26"
-                            FontWeight="SemiBold"
-                            Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
-                            TextTrimming="CharacterEllipsis"
-                            AutomationProperties.AutomationId="ResultText" />
-                        <Button
-                            x:Name="RegenerateButton"
-                            Grid.Column="1"
-                            Click="OnGenerateClick"
-                            Style="{StaticResource SubtleButtonStyle}"
-                            ToolTipService.ToolTip="Generate again"
-                            AutomationProperties.Name="Generate again">
-                            <FontIcon Glyph="&#xE72C;" FontSize="18" />
-                        </Button>
-                        <Button
-                            x:Name="CopyButton"
-                            Grid.Column="2"
-                            Click="OnCopyClick"
-                            Style="{StaticResource SubtleButtonStyle}"
-                            ToolTipService.ToolTip="Copy"
-                            AutomationProperties.Name="Copy">
-                            <FontIcon Glyph="&#xE8C8;" FontSize="18" />
-                        </Button>
-                        <TextBlock
-                            x:Name="DetailText"
-                            Grid.Row="1"
-                            Grid.ColumnSpan="3"
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            AutomationProperties.AutomationId="DetailText" />
-                    </Grid>
-                </Border>
+                    <!-- Generated value -->
+                    <Border
+                        Padding="20"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+                        <Grid ColumnSpacing="8" RowSpacing="6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                <!-- Options -->
-                <Border
-                    Padding="20"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <StackPanel Spacing="12">
-                        <TextBlock x:Name="OptionsTitle" Style="{StaticResource SubtitleTextBlockStyle}" />
+                            <TextBlock
+                                x:Name="ResultText"
+                                VerticalAlignment="Center"
+                                FontFamily="Cascadia Mono, Consolas"
+                                FontSize="26"
+                                FontWeight="SemiBold"
+                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                TextTrimming="CharacterEllipsis"
+                                AutomationProperties.AutomationId="ResultText" />
+                            <Button
+                                x:Name="RegenerateButton"
+                                Grid.Column="1"
+                                Click="OnGenerateClick"
+                                Style="{StaticResource SubtleButtonStyle}"
+                                ToolTipService.ToolTip="Generate again"
+                                AutomationProperties.Name="Generate again">
+                                <FontIcon Glyph="&#xE72C;" FontSize="18" />
+                            </Button>
+                            <Button
+                                x:Name="CopyButton"
+                                Grid.Column="2"
+                                Click="OnCopyClick"
+                                Style="{StaticResource SubtleButtonStyle}"
+                                ToolTipService.ToolTip="Copy"
+                                AutomationProperties.Name="Copy">
+                                <FontIcon Glyph="&#xE8C8;" FontSize="18" />
+                            </Button>
+                            <TextBlock
+                                x:Name="DetailText"
+                                Grid.Row="1"
+                                Grid.ColumnSpan="3"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                AutomationProperties.AutomationId="DetailText" />
+                        </Grid>
+                    </Border>
 
-                        <StackPanel x:Name="PasswordOptions" Spacing="12">
-                            <TextBlock x:Name="LengthText" Style="{StaticResource BodyStrongTextBlockStyle}" />
-                            <Slider
-                                x:Name="LengthSlider"
-                                StepFrequency="1"
-                                AutomationProperties.Name="Password length" />
+                    <!-- Options -->
+                    <Border
+                        Padding="20"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+                        <StackPanel Spacing="12">
+                            <TextBlock x:Name="OptionsTitle" Style="{StaticResource SubtitleTextBlockStyle}" />
 
-                            <Grid ColumnSpacing="24" RowSpacing="4">
+                            <StackPanel x:Name="PasswordOptions" Spacing="12">
+                                <TextBlock x:Name="LengthText" Style="{StaticResource BodyStrongTextBlockStyle}" />
+                                <Slider
+                                    x:Name="LengthSlider"
+                                    StepFrequency="1"
+                                    AutomationProperties.Name="Password length" />
+
+                                <Grid ColumnSpacing="24" RowSpacing="4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <ToggleSwitch x:Name="UppercaseToggle" Header="Uppercase letters (A-Z)" IsOn="True" OnContent="" OffContent="" />
+                                    <ToggleSwitch x:Name="LowercaseToggle" Grid.Column="1" Header="Lowercase letters (a-z)" IsOn="True" OnContent="" OffContent="" />
+                                    <ToggleSwitch x:Name="NumbersToggle" Grid.Row="1" Header="Numbers (0-9)" IsOn="True" OnContent="" OffContent="" />
+                                    <ToggleSwitch x:Name="SymbolsToggle" Grid.Row="1" Grid.Column="1" Header="Symbols (e.g. $ % ^ &amp;)" IsOn="True" OnContent="" OffContent="" />
+                                </Grid>
+                            </StackPanel>
+
+                            <Grid x:Name="UuidOptions" ColumnSpacing="24" Visibility="Collapsed">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <ToggleSwitch x:Name="UppercaseToggle" Header="Uppercase letters (A-Z)" IsOn="True" OnContent="" OffContent="" />
-                                <ToggleSwitch x:Name="LowercaseToggle" Grid.Column="1" Header="Lowercase letters (a-z)" IsOn="True" OnContent="" OffContent="" />
-                                <ToggleSwitch x:Name="NumbersToggle" Grid.Row="1" Header="Numbers (0-9)" IsOn="True" OnContent="" OffContent="" />
-                                <ToggleSwitch x:Name="SymbolsToggle" Grid.Row="1" Grid.Column="1" Header="Symbols (e.g. $ % ^ &amp;)" IsOn="True" OnContent="" OffContent="" />
+                                <ToggleSwitch x:Name="UuidUppercaseToggle" Header="Uppercase (A-F)" OnContent="" OffContent="" />
+                                <ToggleSwitch x:Name="UuidHyphensToggle" Grid.Column="1" Header="Hyphens" IsOn="True" OnContent="" OffContent="" />
                             </Grid>
+
+                            <Button
+                                x:Name="GenerateButton"
+                                HorizontalAlignment="Stretch"
+                                Click="OnGenerateClick"
+                                Style="{StaticResource AccentButtonStyle}">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE72C;" FontSize="16" />
+                                    <TextBlock x:Name="GenerateButtonText" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+
+                    <InfoBar
+                        x:Name="CopiedInfoBar"
+                        Title="Copied"
+                        IsClosable="False"
+                        Severity="Success" />
+                </StackPanel>
+
+                <!-- About -->
+                <Border
+                    x:Name="AboutPanel"
+                    Padding="20"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Visibility="Collapsed">
+                    <StackPanel Spacing="16">
+                        <StackPanel Orientation="Horizontal" Spacing="16">
+                            <Image Source="ms-appx:///Assets/icon.ico" Width="48" Height="48" />
+                            <StackPanel VerticalAlignment="Center" Spacing="2">
+                                <TextBlock Text="BG Password Generator" Style="{StaticResource SubtitleTextBlockStyle}" />
+                                <TextBlock
+                                    x:Name="AboutVersionText"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    AutomationProperties.AutomationId="AboutVersionText" />
+                            </StackPanel>
                         </StackPanel>
 
-                        <Grid x:Name="UuidOptions" ColumnSpacing="24" Visibility="Collapsed">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <ToggleSwitch x:Name="UuidUppercaseToggle" Header="Uppercase (A-F)" OnContent="" OffContent="" />
-                            <ToggleSwitch x:Name="UuidHyphensToggle" Grid.Column="1" Header="Hyphens" IsOn="True" OnContent="" OffContent="" />
-                        </Grid>
+                        <TextBlock TextWrapping="Wrap">
+                            Creates strong passwords and random UUIDs. Everything is generated on this device;
+                            passwords are never stored or sent anywhere. The only network request is the update
+                            check against the project's GitHub releases.
+                        </TextBlock>
 
-                        <Button
-                            x:Name="GenerateButton"
-                            HorizontalAlignment="Stretch"
-                            Click="OnGenerateClick"
-                            Style="{StaticResource AccentButtonStyle}">
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon Glyph="&#xE72C;" FontSize="16" />
-                                <TextBlock x:Name="GenerateButtonText" />
-                            </StackPanel>
-                        </Button>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Button x:Name="CheckUpdatesButton" Content="Check for updates" Click="OnCheckUpdatesClick" />
+                            <TextBlock
+                                x:Name="UpdateStatusText"
+                                VerticalAlignment="Center"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                TextWrapping="Wrap"
+                                AutomationProperties.AutomationId="UpdateStatusText" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Spacing="4" Margin="-12,0,0,0">
+                            <HyperlinkButton Content="GitHub repository" NavigateUri="https://github.com/berkguclukol/bg-password-generator" />
+                            <HyperlinkButton Content="Release notes" NavigateUri="https://github.com/berkguclukol/bg-password-generator/releases" />
+                            <HyperlinkButton Content="Report an issue" NavigateUri="https://github.com/berkguclukol/bg-password-generator/issues" />
+                        </StackPanel>
+
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="© 2021–2026 Berk Güçlükol · MIT License" />
                     </StackPanel>
                 </Border>
-
-                <InfoBar
-                    x:Name="CopiedInfoBar"
-                    Title="Copied"
-                    IsClosable="False"
-                    Severity="Success" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
