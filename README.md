@@ -3,11 +3,12 @@
 # BG Password Generator 👋
 #### It is designed for personal use.
 
-A native Windows app for quickly creating passwords and random UUIDs. The generator works offline and does not require internet. Generated passwords are never stored anywhere and/or sent to a remote location.
+A native Windows app for quickly creating passwords and random UUIDs, and for hashing or Base64-encoding text. It works offline and does not require internet. Generated passwords are never stored anywhere and/or sent to a remote location.
 
 - Passwords are generated with a cryptographically secure random number generator, contain every selected character type and are shuffled.
 - Copied passwords are kept out of Windows clipboard history (Win+V) and cloud clipboard sync, and are cleared after 30 seconds or when the window closes, unless something else was copied since.
 - Random UUIDs (version 4), optionally uppercase or without hyphens. UUIDs are copied normally since they aren't secrets.
+- MD5, SHA-1, SHA-256 and SHA-512 hashes and Base64 encoding of text, as you type. Results are copied the same guarded way as passwords. MD5 and SHA-1 are broken and only suit checksums, and Base64 isn't encryption.
 - Updates from GitHub: on startup an installed copy checks this repository's latest release and offers to update and restart. The update check is the app's only network request; it sends nothing but the request itself, and the app works normally when offline. The About page shows the version, project links and a manual "Check for updates" button.
 
 See [PRIVACY.md](PRIVACY.md) for exactly what the app does with your data, the clipboard and the network.
@@ -17,7 +18,7 @@ See [PRIVACY.md](PRIVACY.md) for exactly what the app does with your data, the c
 
 WinUI 3 (Windows App SDK) on .NET 10.
 
-- `src/BgPasswordGenerator.Core` — password and UUID generation, strength rules (plain .NET, no UI)
+- `src/BgPasswordGenerator.Core` — password and UUID generation, strength rules, hashing and Base64 (plain .NET, no UI)
 - `src/BgPasswordGenerator` — WinUI 3 app, unpackaged and self-contained
 - `tests/BgPasswordGenerator.Tests` — xUnit tests for the core library
 

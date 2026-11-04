@@ -13,6 +13,8 @@ public sealed partial class MainWindow : Window
     private const int WindowHeight = 660;
     private const double PasswordFontSize = 26;
     private const double UuidFontSize = 18;
+    private const double HashFontSize = 14;
+    private const int HashMaxLines = 6;
     private static readonly TimeSpan CopiedNoticeDuration = TimeSpan.FromSeconds(3);
 
     private readonly ClipboardGuard _clipboard = new();
@@ -39,6 +41,9 @@ public sealed partial class MainWindow : Window
         UpdateLengthText();
 
         ModeSelector.SelectionChanged += (_, _) => ApplyMode();
+        HashInput.TextChanged += (_, _) => Render();
+        HashOperation.SelectionChanged += (_, _) => Render();
+        HashUppercaseToggle.Toggled += (_, _) => Render();
 
         _copiedNoticeTimer.Tick += (_, _) =>
         {
@@ -53,7 +58,11 @@ public sealed partial class MainWindow : Window
 
     private bool IsUuidMode => ModeSelector.SelectedItem == UuidModeItem;
 
+    private bool IsHashMode => ModeSelector.SelectedItem == HashModeItem;
+
     private bool IsAboutMode => ModeSelector.SelectedItem == AboutModeItem;
+
+    private static Visibility VisibleIf(bool condition) => condition ? Visibility.Visible : Visibility.Collapsed;
 
     private void SizeWindow()
     {
@@ -71,20 +80,28 @@ public sealed partial class MainWindow : Window
 
     private void ApplyMode()
     {
-        GeneratorPanel.Visibility = IsAboutMode ? Visibility.Collapsed : Visibility.Visible;
-        AboutPanel.Visibility = IsAboutMode ? Visibility.Visible : Visibility.Collapsed;
+        GeneratorPanel.Visibility = VisibleIf(!IsAboutMode);
+        AboutPanel.Visibility = VisibleIf(IsAboutMode);
         if (IsAboutMode)
         {
             return;
         }
 
         var uuid = IsUuidMode;
-        PasswordOptions.Visibility = uuid ? Visibility.Collapsed : Visibility.Visible;
-        UuidOptions.Visibility = uuid ? Visibility.Visible : Visibility.Collapsed;
-        OptionsTitle.Text = uuid ? "Customize your UUID." : "Customize your password.";
+        var hash = IsHashMode;
+        PasswordOptions.Visibility = VisibleIf(!uuid && !hash);
+        UuidOptions.Visibility = VisibleIf(uuid);
+        HashOptions.Visibility = VisibleIf(hash);
+        // Hash results follow the input, so there's nothing to generate
+        GenerateButton.Visibility = VisibleIf(!hash);
+        RegenerateButton.Visibility = VisibleIf(!hash);
+        OptionsTitle.Text = hash ? "Hash or encode text." : uuid ? "Customize your UUID." : "Customize your password.";
         GenerateButtonText.Text = uuid ? "Generate UUID" : "Generate Password";
-        // A 36-character UUID doesn't fit at the password size
-        ResultText.FontSize = uuid ? UuidFontSize : PasswordFontSize;
+        // A 36-character UUID doesn't fit at the password size, and hash results can run over several lines
+        ResultText.FontSize = hash ? HashFontSize : uuid ? UuidFontSize : PasswordFontSize;
+        ResultText.TextWrapping = hash ? TextWrapping.Wrap : TextWrapping.NoWrap;
+        ResultText.MaxLines = hash ? HashMaxLines : 0;
+        ResultText.IsTextSelectionEnabled = hash;
         CopiedInfoBar.IsOpen = false;
         Render();
     }
@@ -93,6 +110,12 @@ public sealed partial class MainWindow : Window
 
     private void Render()
     {
+        if (IsHashMode)
+        {
+            RenderHash();
+            return;
+        }
+
         if (IsUuidMode)
         {
             ResultText.Text = UuidGenerator.Generate(UuidUppercaseToggle.IsOn, UuidHyphensToggle.IsOn);
@@ -109,6 +132,38 @@ public sealed partial class MainWindow : Window
         DetailText.Text = $"Strength: {PasswordStrength.Evaluate(ResultText.Text)}";
     }
 
+    private void RenderHash()
+    {
+        var operation = (TextOperation)HashOperation.SelectedIndex;
+        HashUppercaseToggle.Visibility = VisibleIf(TextTransform.IsHash(operation));
+        DetailText.Text = HashNote(operation);
+
+        // An empty box shows nothing rather than the hash of an empty string
+        if (HashInput.Text.Length == 0)
+        {
+            ResultText.Text = string.Empty;
+            return;
+        }
+
+        try
+        {
+            ResultText.Text = TextTransform.Apply(operation, HashInput.Text, HashUppercaseToggle.IsOn);
+        }
+        catch (FormatException)
+        {
+            ResultText.Text = string.Empty;
+            DetailText.Text = "This isn't valid Base64 of UTF-8 text.";
+        }
+    }
+
+    private static string HashNote(TextOperation operation) => operation switch
+    {
+        TextOperation.Md5 => "MD5 is broken. Use it for checksums only, not for passwords or security.",
+        TextOperation.Sha1 => "SHA-1 is broken. Use it for checksums only, not for passwords or security.",
+        TextOperation.Base64Encode or TextOperation.Base64Decode => "Base64 is an encoding, not encryption. Anyone can decode it.",
+        _ => "A one-way hash of the UTF-8 text. Too fast for storing passwords.",
+    };
+
     private void OnGenerateClick(object sender, RoutedEventArgs e) => Render();
 
     private void OnCopyClick(object sender, RoutedEventArgs e)
@@ -118,7 +173,8 @@ public sealed partial class MainWindow : Window
             return;
         }
 
-        // UUIDs aren't secrets, so they're copied normally instead of being hidden from history and cleared
+        // UUIDs aren't secrets, so they're copied normally instead of being hidden from history and cleared.
+        // Hash and Base64 results stay guarded because they come from text that may be secret.
         if (IsUuidMode)
         {
             ClipboardGuard.CopyPlain(ResultText.Text);

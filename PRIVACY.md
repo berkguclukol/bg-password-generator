@@ -1,6 +1,6 @@
 # Privacy
 
-_Last updated: November 3, 2026_
+_Last updated: November 4, 2026_
 
 BG Password Generator is a small offline tool. It has no accounts, no telemetry, no analytics and no ads, and the developer receives no data from it.
 
@@ -9,9 +9,14 @@ BG Password Generator is a small offline tool. It has no accounts, no telemetry,
 - Passwords and UUIDs are generated on your device with the operating system's cryptographically secure random number generator.
 - They are never saved to disk, written to logs or sent over the network. They exist only in the app's memory and are gone when it closes.
 
+## Text you hash or encode
+
+- Text you enter on the **Hash / Base64** page is processed on your device and, like the results, is never saved, logged or sent over the network. It's gone when the app closes.
+- Spell check and text prediction are turned off for that box.
+
 ## Clipboard
 
-- A copied **password** is kept out of Windows clipboard history (Win+V) and out of cloud clipboard sync between your devices. It is removed from the clipboard after 30 seconds or when the app closes, unless you've copied something else since. While it's on the clipboard, other programs on your computer can read it, as with anything you copy.
+- A copied **password, hash or Base64 result** is kept out of Windows clipboard history (Win+V) and out of cloud clipboard sync between your devices. It is removed from the clipboard after 30 seconds or when the app closes, unless you've copied something else since. While it's on the clipboard, other programs on your computer can read it, as with anything you copy.
 - A copied **UUID** is treated like any other copied text: it can appear in clipboard history, it syncs if you've turned on cloud clipboard, and it stays on the clipboard after the app closes.
 
 ## Update check

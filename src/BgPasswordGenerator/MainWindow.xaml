@@ -42,6 +42,7 @@
                 <SelectorBar x:Name="ModeSelector" AutomationProperties.Name="Sections">
                     <SelectorBarItem x:Name="PasswordModeItem" Text="Password" IsSelected="True" />
                     <SelectorBarItem x:Name="UuidModeItem" Text="UUID" />
+                    <SelectorBarItem x:Name="HashModeItem" Text="Hash / Base64" />
                     <SelectorBarItem x:Name="AboutModeItem" Text="About" />
                 </SelectorBar>
 
@@ -144,6 +145,40 @@
                                 <ToggleSwitch x:Name="UuidHyphensToggle" Grid.Column="1" Header="Hyphens" IsOn="True" OnContent="" OffContent="" />
                             </Grid>
 
+                            <StackPanel x:Name="HashOptions" Spacing="12" Visibility="Collapsed">
+                                <!-- The text can be a secret, so keep it away from spell check and text prediction -->
+                                <TextBox
+                                    x:Name="HashInput"
+                                    Height="120"
+                                    AcceptsReturn="True"
+                                    Header="Text"
+                                    IsSpellCheckEnabled="False"
+                                    IsTextPredictionEnabled="False"
+                                    TextWrapping="Wrap"
+                                    AutomationProperties.AutomationId="HashInput" />
+                                <Grid ColumnSpacing="24">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!-- Items follow the order of the TextOperation enum -->
+                                    <ComboBox
+                                        x:Name="HashOperation"
+                                        HorizontalAlignment="Stretch"
+                                        Header="Algorithm"
+                                        SelectedIndex="2"
+                                        AutomationProperties.AutomationId="HashOperation">
+                                        <x:String>MD5</x:String>
+                                        <x:String>SHA-1</x:String>
+                                        <x:String>SHA-256</x:String>
+                                        <x:String>SHA-512</x:String>
+                                        <x:String>Base64 encode</x:String>
+                                        <x:String>Base64 decode</x:String>
+                                    </ComboBox>
+                                    <ToggleSwitch x:Name="HashUppercaseToggle" Grid.Column="1" Header="Uppercase (A-F)" OnContent="" OffContent="" />
+                                </Grid>
+                            </StackPanel>
+
                             <Button
                                 x:Name="GenerateButton"
                                 HorizontalAlignment="Stretch"
@@ -186,9 +221,9 @@
                         </StackPanel>
 
                         <TextBlock TextWrapping="Wrap">
-                            Creates strong passwords and random UUIDs. Everything is generated on this device;
-                            passwords are never stored or sent anywhere. The only network request is the update
-                            check against the project's GitHub releases.
+                            Creates strong passwords and random UUIDs, and hashes or encodes text. Everything happens
+                            on this device; nothing you generate or enter is stored or sent anywhere. The only network
+                            request is the update check against the project's GitHub releases.
                         </TextBlock>
 
                         <StackPanel Orientation="Horizontal" Spacing="12">
