@@ -17,6 +17,16 @@ public static class TextTransform
 {
     private static readonly UTF8Encoding StrictUtf8 = new(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true);
 
+    public const string InvalidBase64Message = "This isn't valid Base64 of UTF-8 text.";
+
+    public static string Note(TextOperation operation) => operation switch
+    {
+        TextOperation.Md5 => "MD5 is broken. Use it for checksums only, not for passwords or security.",
+        TextOperation.Sha1 => "SHA-1 is broken. Use it for checksums only, not for passwords or security.",
+        TextOperation.Base64Encode or TextOperation.Base64Decode => "Base64 is an encoding, not encryption. Anyone can decode it.",
+        _ => "A one-way hash of the UTF-8 text. Too fast for storing passwords.",
+    };
+
     public static bool IsHash(TextOperation operation) => operation is not (TextOperation.Base64Encode or TextOperation.Base64Decode);
 
     /// <summary>
@@ -34,7 +44,7 @@ public static class TextTransform
         var bytes = Encoding.UTF8.GetBytes(NormalizeLineEndings(text));
         return operation switch
         {
-            TextOperation.Md5 => ToHex(MD5.HashData(bytes), uppercaseHex),
+            TextOperation.Md5 => ToHex(OperatingSystem.IsBrowser() ? ManagedMd5.Hash(bytes) : MD5.HashData(bytes), uppercaseHex),
             TextOperation.Sha1 => ToHex(SHA1.HashData(bytes), uppercaseHex),
             TextOperation.Sha256 => ToHex(SHA256.HashData(bytes), uppercaseHex),
             TextOperation.Sha512 => ToHex(SHA512.HashData(bytes), uppercaseHex),

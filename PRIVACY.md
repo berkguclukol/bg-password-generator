@@ -1,8 +1,10 @@
 # Privacy
 
-_Last updated: November 4, 2026_
+_Last updated: November 5, 2026_
 
-BG Password Generator is a small offline tool. It has no accounts, no telemetry, no analytics and no ads, and the developer receives no data from it.
+BG Password Generator is a small tool that does its work on your device. It has no accounts, no telemetry, no analytics and no ads, and the developer receives no data from it.
+
+Everything below describes the Windows app unless it says otherwise. The web version differs in a few ways; see [Web version](#web-version).
 
 ## Passwords and UUIDs
 
@@ -35,6 +37,15 @@ This is the only time the app uses the network.
 - The updater creates a random install ID in `packages\.betaId` inside that folder. It's used by Velopack's own hosted update service, which this app doesn't use, so it never leaves your device.
 - The updater keeps a log of install and update activity at `%LocalAppData%\velopack\velopack_BgPasswordGenerator.log`. It contains version numbers and file paths (which can include your Windows user name) but never passwords or UUIDs.
 - Setup adds Desktop and Start Menu shortcuts and an entry in Apps and features. Uninstalling removes the install folder, the shortcuts and that entry. The updater log above stays behind; you can delete it by hand. For the Portable version, deleting its folder removes everything except that log.
+
+## Web version
+
+The web version runs as WebAssembly in your browser. Passwords, UUIDs, hashes and the text you enter are handled there and are never sent to the server.
+
+- **Network:** the page only loads its own files from the server hosting it, and its Content Security Policy blocks connections to any other host. It has no update check.
+- **Server:** whoever hosts the page can see your IP address and which files were requested, like any website. It can't see what you generate or enter. It does, however, deliver the code your browser runs, so use a copy you trust or host it yourself.
+- **Storage:** the page uses no cookies, local storage or other browser storage. Your browser may cache the page's own files.
+- **Clipboard:** the protections described above don't apply. A browser page can't keep copied text out of clipboard history or cloud clipboard sync, and the page doesn't clear it later. Copied text stays on the clipboard until something replaces it. Use the Windows app if that matters to you.
 
 ## Questions
 

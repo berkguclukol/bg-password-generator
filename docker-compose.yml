@@ -1,0 +1,16 @@
+services:
+  web:
+    build: .
+    image: bg-password-generator-web
+    # Localhost only: browsers allow the Copy button on localhost or HTTPS, so anything
+    # reachable from the network should go through a reverse proxy that terminates TLS.
+    ports:
+      - "127.0.0.1:8080:8080"
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true

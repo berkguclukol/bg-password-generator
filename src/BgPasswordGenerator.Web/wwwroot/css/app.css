@@ -1,0 +1,448 @@
+/* Matches the Windows app, which uses WinUI's Fluent theme and follows the system's light or dark mode */
+:root {
+    color-scheme: light dark;
+    --page: #f3f3f3;
+    --card: #fbfbfb;
+    --card-stroke: rgba(0, 0, 0, 0.08);
+    --text: rgba(0, 0, 0, 0.9);
+    --text-secondary: rgba(0, 0, 0, 0.62);
+    --text-tertiary: rgba(0, 0, 0, 0.45);
+    --accent: #005fb8;
+    --accent-hover: #196ebf;
+    --on-accent: #ffffff;
+    --accent-text: #003e92;
+    --control: rgba(255, 255, 255, 0.7);
+    --control-hover: rgba(249, 249, 249, 0.5);
+    --control-stroke: rgba(0, 0, 0, 0.14);
+    --subtle-hover: rgba(0, 0, 0, 0.04);
+    --track-off: rgba(0, 0, 0, 0.45);
+    --slider-track: rgba(0, 0, 0, 0.45);
+    --success-bg: #dff6dd;
+    --failed-bg: #fde7e9;
+    --mono: "Cascadia Mono", Consolas, ui-monospace, Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --page: #202226;
+        --card: #2b2d31;
+        --card-stroke: rgba(255, 255, 255, 0.06);
+        --text: #ffffff;
+        --text-secondary: rgba(255, 255, 255, 0.78);
+        --text-tertiary: rgba(255, 255, 255, 0.55);
+        --accent: #4cc2ff;
+        --accent-hover: #47b1e8;
+        --on-accent: #000000;
+        --accent-text: #99ebff;
+        --control: rgba(255, 255, 255, 0.06);
+        --control-hover: rgba(255, 255, 255, 0.09);
+        --control-stroke: rgba(255, 255, 255, 0.1);
+        --subtle-hover: rgba(255, 255, 255, 0.06);
+        --track-off: rgba(255, 255, 255, 0.6);
+        --slider-track: rgba(255, 255, 255, 0.55);
+        --success-bg: #393d1b;
+        --failed-bg: #442726;
+    }
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--page);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--page);
+    color: var(--text);
+    font: 14px/20px "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+h1, p {
+    margin: 0;
+}
+
+button, select, textarea, input {
+    font: inherit;
+    color: inherit;
+}
+
+:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 1px;
+}
+
+.secondary {
+    color: var(--text-secondary);
+}
+
+.caption {
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.subtitle {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 600;
+}
+
+.strong {
+    font-weight: 600;
+}
+
+.loading {
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.title-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 40px;
+    padding: 0 16px;
+    font-size: 12px;
+}
+
+.title-bar .version {
+    color: var(--text-tertiary);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 24px 24px;
+}
+
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tab {
+    position: relative;
+    padding: 8px 12px 10px;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    cursor: pointer;
+}
+
+.tab:hover {
+    background: var(--subtle-hover);
+}
+
+.tab[aria-selected="true"]::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 2px;
+    width: 16px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--accent);
+    transform: translateX(-50%);
+}
+
+.card {
+    padding: 20px;
+    border: 1px solid var(--card-stroke);
+    border-radius: 8px;
+    background: var(--card);
+}
+
+.result-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 6px 8px;
+}
+
+.result {
+    min-height: 34px;
+    font-family: var(--mono);
+    font-weight: 600;
+    color: var(--accent-text);
+    overflow-wrap: anywhere;
+}
+
+.result.password {
+    font-size: 26px;
+    line-height: 34px;
+}
+
+.result.uuid {
+    font-size: 18px;
+    line-height: 34px;
+}
+
+.result.hash {
+    display: -webkit-box;
+    font-size: 14px;
+    line-height: 20px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    line-clamp: 6;
+    overflow: hidden;
+}
+
+.result-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.detail {
+    grid-column: 1 / -1;
+}
+
+.icon-button {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    cursor: pointer;
+}
+
+.icon-button:hover {
+    background: var(--subtle-hover);
+}
+
+svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.options, .about {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 32px;
+    margin: 0;
+    background: none;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.toggle-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 24px;
+}
+
+.toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    min-height: 63px;
+    cursor: pointer;
+}
+
+.toggle input {
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.toggle .track {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    border: 1px solid var(--track-off);
+    border-radius: 10px;
+    transition: background-color 0.1s;
+}
+
+.toggle .track::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--track-off);
+    transition: transform 0.1s;
+}
+
+.toggle input:checked + .track {
+    border-color: var(--accent);
+    background: var(--accent);
+}
+
+.toggle input:checked + .track::after {
+    background: var(--on-accent);
+    transform: translateX(20px);
+}
+
+.toggle input:focus-visible + .track {
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+}
+
+.toggle span:first-child {
+    display: block;
+}
+
+/* The checkbox sits over the track so a click anywhere on it toggles */
+.toggle {
+    position: relative;
+}
+
+.toggle input {
+    bottom: 15px;
+    left: 0;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+textarea, select {
+    width: 100%;
+    padding: 6px 12px;
+    border: 1px solid var(--control-stroke);
+    border-radius: 4px;
+    background: var(--control);
+}
+
+textarea {
+    resize: vertical;
+}
+
+textarea:focus {
+    border-bottom: 2px solid var(--accent);
+    outline: none;
+}
+
+select {
+    height: 32px;
+    padding-block: 0;
+    cursor: pointer;
+}
+
+select option {
+    background: var(--card);
+    color: var(--text);
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    justify-content: center;
+    gap: 8px;
+    min-height: 32px;
+    padding: 5px 12px;
+    border: 1px solid var(--control-stroke);
+    border-radius: 4px;
+    background: var(--control);
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button:hover {
+    background: var(--control-hover);
+}
+
+.button.accent {
+    align-self: stretch;
+    border-color: transparent;
+    background: var(--accent);
+    color: var(--on-accent);
+}
+
+.button.accent:hover {
+    background: var(--accent-hover);
+}
+
+.notice {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    padding: 14px 16px;
+    border-radius: 4px;
+    background: var(--success-bg);
+}
+
+.notice.failed {
+    background: var(--failed-bg);
+}
+
+.about-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 28px;
+}
+
+.links a {
+    color: var(--accent-text);
+    text-decoration: none;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+#blazor-error-ui {
+    display: none;
+    position: fixed;
+    inset: auto 0 0;
+    padding: 12px 24px;
+    background: var(--failed-bg);
+}
+
+#blazor-error-ui a {
+    color: inherit;
+}
+
+@media (max-width: 480px) {
+    .content {
+        padding-inline: 16px;
+    }
+
+    .toggle-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .result.password {
+        font-size: 22px;
+    }
+
+    .result.uuid {
+        font-size: 16px;
+    }
+}

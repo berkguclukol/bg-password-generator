@@ -20,6 +20,7 @@ WinUI 3 (Windows App SDK) on .NET 10.
 
 - `src/BgPasswordGenerator.Core` — password and UUID generation, strength rules, hashing and Base64 (plain .NET, no UI)
 - `src/BgPasswordGenerator` — WinUI 3 app, unpackaged and self-contained
+- `src/BgPasswordGenerator.Web` — web version with the same screens (Blazor WebAssembly), sharing the core library
 - `tests/BgPasswordGenerator.Tests` — xUnit tests for the core library
 
 ## Installation
@@ -32,6 +33,18 @@ cd bg-password-generator
 dotnet test
 dotnet run --project src/BgPasswordGenerator
 ```
+
+## Web version
+
+The same tool runs in the browser as a Blazor WebAssembly app, served by nginx in Docker. All code runs in the visitor's browser; the container only serves static files.
+
+```sh
+docker compose up -d --build
+```
+
+Then open <http://localhost:8080>. The port is bound to localhost because browsers only allow the Copy button on localhost or HTTPS. To reach it from other machines, put a reverse proxy that terminates TLS in front of it.
+
+Browsers can't keep copied text out of clipboard history or clear it later, so copied passwords are better protected in the Windows app. See [PRIVACY.md](PRIVACY.md#web-version).
 
 ## Packaging
 

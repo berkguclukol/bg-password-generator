@@ -1,0 +1,285 @@
+@inject IJSRuntime JS
+
+<header class="title-bar">
+    <img src="logo.svg" alt="" width="16" height="16" />
+    <span>BG Password Generator</span>
+    <span class="version">v@(Version)</span>
+</header>
+
+<main class="content">
+    <nav class="tabs" role="tablist" aria-label="Sections">
+        @foreach (var (tab, label) in Tabs)
+        {
+            <button role="tab" aria-selected="@(mode == tab ? "true" : "false")" class="tab" @onclick="() => SelectMode(tab)">@label</button>
+        }
+    </nav>
+
+    @if (mode == Mode.About)
+    {
+        <section class="card about">
+            <div class="about-title">
+                <img src="logo.svg" alt="" width="48" height="48" />
+                <div>
+                    <h1 class="subtitle">BG Password Generator</h1>
+                    <p class="secondary">Version @Version</p>
+                </div>
+            </div>
+            <p>
+                Creates strong passwords and random UUIDs, and hashes or encodes text. Everything happens in your
+                browser; nothing you generate or enter is stored or sent anywhere. The page only loads its own files.
+            </p>
+            <p class="secondary">
+                Browsers can't keep copied text out of clipboard history or clear it later. The Windows app does both.
+            </p>
+            <a class="button" href="@(RepositoryUrl)/releases/latest" target="_blank" rel="noopener noreferrer">Download the Windows app</a>
+            <div class="links">
+                <a href="@RepositoryUrl" target="_blank" rel="noopener noreferrer">GitHub repository</a>
+                <a href="@(RepositoryUrl)/releases" target="_blank" rel="noopener noreferrer">Release notes</a>
+                <a href="@(RepositoryUrl)/issues" target="_blank" rel="noopener noreferrer">Report an issue</a>
+                <a href="@(RepositoryUrl)/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">Privacy</a>
+            </div>
+            <p class="caption secondary">© 2021–2026 Berk Güçlükol · MIT License</p>
+        </section>
+    }
+    else
+    {
+        <section class="card result-card">
+            <output id="result" class="result @ResultClass">@result</output>
+            <div class="result-actions">
+                @if (mode != Mode.Hash)
+                {
+                    <button class="icon-button" title="Generate again" aria-label="Generate again" @onclick="Render">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66L20 8.7M20 3.5v5.2h-5.2" /></svg>
+                    </button>
+                }
+                <button class="icon-button" title="Copy" aria-label="Copy" @onclick="CopyAsync">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2" /><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h2" /></svg>
+                </button>
+            </div>
+            <p id="detail" class="detail caption secondary">@detail</p>
+        </section>
+
+        <section class="card options">
+            <h1 class="subtitle">@OptionsTitle</h1>
+
+            @if (mode == Mode.Password)
+            {
+                <label class="strong" for="length">Password length : @length</label>
+                <input id="length" type="range" min="@PasswordGenerator.MinLength" max="@PasswordGenerator.MaxLength" step="1" @bind="length" @bind:event="oninput" />
+                <div class="toggle-grid">
+                    <label class="toggle"><span>Uppercase letters (A-Z)</span><input type="checkbox" role="switch" @bind="upper" /><span class="track"></span></label>
+                    <label class="toggle"><span>Lowercase letters (a-z)</span><input type="checkbox" role="switch" @bind="lower" /><span class="track"></span></label>
+                    <label class="toggle"><span>Numbers (0-9)</span><input type="checkbox" role="switch" @bind="numbers" /><span class="track"></span></label>
+                    <label class="toggle"><span>Symbols (e.g. $ % ^ &amp;)</span><input type="checkbox" role="switch" @bind="symbols" /><span class="track"></span></label>
+                </div>
+            }
+            else if (mode == Mode.Uuid)
+            {
+                <div class="toggle-grid">
+                    <label class="toggle"><span>Uppercase (A-F)</span><input type="checkbox" role="switch" @bind="uuidUppercase" /><span class="track"></span></label>
+                    <label class="toggle"><span>Hyphens</span><input type="checkbox" role="switch" @bind="uuidHyphens" /><span class="track"></span></label>
+                </div>
+            }
+            else
+            {
+                <label class="field">
+                    <span>Text</span>
+                    @* The text can be a secret, so keep it away from spell check and autofill *@
+                    <textarea id="hash-input" rows="5" spellcheck="false" autocomplete="off" autocapitalize="off" @bind="hashInput" @bind:event="oninput" @bind:after="Render"></textarea>
+                </label>
+                <div class="toggle-grid">
+                    <label class="field">
+                        <span>Algorithm</span>
+                        <select id="hash-operation" @bind="hashOperation" @bind:after="Render">
+                            @foreach (var (operation, label) in Operations)
+                            {
+                                <option value="@operation">@label</option>
+                            }
+                        </select>
+                    </label>
+                    @if (TextTransform.IsHash(hashOperation))
+                    {
+                        <label class="toggle"><span>Uppercase (A-F)</span><input type="checkbox" role="switch" @bind="hashUppercase" @bind:after="Render" /><span class="track"></span></label>
+                    }
+                </div>
+            }
+
+            @if (mode != Mode.Hash)
+            {
+                <button class="button accent" @onclick="Render">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66L20 8.7M20 3.5v5.2h-5.2" /></svg>
+                    @(mode == Mode.Uuid ? "Generate UUID" : "Generate Password")
+                </button>
+            }
+        </section>
+
+        @if (notice is not null)
+        {
+            <div class="notice @(noticeFailed ? "failed" : "")" role="status">
+                <strong>@(noticeFailed ? "Not copied" : "Copied")</strong>
+                <span>@notice</span>
+            </div>
+        }
+    }
+</main>
+
+@code {
+    private enum Mode
+    {
+        Password,
+        Uuid,
+        Hash,
+        About,
+    }
+
+    private const string RepositoryUrl = "https://github.com/berkguclukol/bg-password-generator";
+    private const int DefaultLength = 18;
+    private static readonly TimeSpan NoticeDuration = TimeSpan.FromSeconds(5);
+    private static readonly string? Version = typeof(App).Assembly.GetName().Version?.ToString(3);
+
+    private static readonly (Mode Tab, string Label)[] Tabs =
+    [
+        (Mode.Password, "Password"),
+        (Mode.Uuid, "UUID"),
+        (Mode.Hash, "Hash / Base64"),
+        (Mode.About, "About"),
+    ];
+
+    private static readonly (TextOperation Operation, string Label)[] Operations =
+    [
+        (TextOperation.Md5, "MD5"),
+        (TextOperation.Sha1, "SHA-1"),
+        (TextOperation.Sha256, "SHA-256"),
+        (TextOperation.Sha512, "SHA-512"),
+        (TextOperation.Base64Encode, "Base64 encode"),
+        (TextOperation.Base64Decode, "Base64 decode"),
+    ];
+
+    private Mode mode = Mode.Password;
+    private string result = string.Empty;
+    private string detail = string.Empty;
+
+    private int length = DefaultLength;
+    private bool upper = true;
+    private bool lower = true;
+    private bool numbers = true;
+    private bool symbols = true;
+
+    private bool uuidUppercase;
+    private bool uuidHyphens = true;
+
+    private string hashInput = string.Empty;
+    private TextOperation hashOperation = TextOperation.Sha256;
+    private bool hashUppercase;
+
+    private string? notice;
+    private bool noticeFailed;
+    private CancellationTokenSource? noticeTimer;
+
+    private string OptionsTitle => mode switch
+    {
+        Mode.Hash => "Hash or encode text.",
+        Mode.Uuid => "Customize your UUID.",
+        _ => "Customize your password.",
+    };
+
+    private string ResultClass => mode switch
+    {
+        Mode.Hash => "hash",
+        Mode.Uuid => "uuid",
+        _ => "password",
+    };
+
+    protected override void OnInitialized() => Render();
+
+    private void SelectMode(Mode selected)
+    {
+        mode = selected;
+        notice = null;
+        if (mode != Mode.About)
+        {
+            Render();
+        }
+    }
+
+    private void Render()
+    {
+        switch (mode)
+        {
+            case Mode.Uuid:
+                result = UuidGenerator.Generate(uuidUppercase, uuidHyphens);
+                detail = "Random UUID (version 4)";
+                break;
+            case Mode.Hash:
+                RenderHash();
+                break;
+            default:
+                result = PasswordGenerator.Generate(length, lower, upper, numbers, symbols);
+                detail = $"Strength: {PasswordStrength.Evaluate(result)}";
+                break;
+        }
+    }
+
+    private void RenderHash()
+    {
+        detail = TextTransform.Note(hashOperation);
+
+        // An empty box shows nothing rather than the hash of an empty string
+        if (hashInput.Length == 0)
+        {
+            result = string.Empty;
+            return;
+        }
+
+        try
+        {
+            result = TextTransform.Apply(hashOperation, hashInput, hashUppercase);
+        }
+        catch (FormatException)
+        {
+            result = string.Empty;
+            detail = TextTransform.InvalidBase64Message;
+        }
+    }
+
+    private async Task CopyAsync()
+    {
+        if (result.Length == 0)
+        {
+            return;
+        }
+
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", result);
+            noticeFailed = false;
+            // Unlike the Windows app, a page can't hide text from clipboard history or clear it once unfocused
+            notice = mode == Mode.Uuid
+                ? "Copied to the clipboard."
+                : "Copied to the clipboard. The browser can't clear it or keep it out of clipboard history.";
+        }
+        catch (JSException)
+        {
+            noticeFailed = true;
+            notice = "Browsers only allow copying on HTTPS or localhost, and when the page has permission.";
+        }
+        await HideNoticeLaterAsync();
+    }
+
+    private async Task HideNoticeLaterAsync()
+    {
+        noticeTimer?.Cancel();
+        noticeTimer = new CancellationTokenSource();
+        var token = noticeTimer.Token;
+        StateHasChanged();
+        try
+        {
+            await Task.Delay(NoticeDuration, token);
+        }
+        catch (TaskCanceledException)
+        {
+            return;
+        }
+        notice = null;
+    }
+}

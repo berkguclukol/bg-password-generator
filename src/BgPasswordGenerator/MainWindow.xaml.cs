@@ -136,7 +136,7 @@ public sealed partial class MainWindow : Window
     {
         var operation = (TextOperation)HashOperation.SelectedIndex;
         HashUppercaseToggle.Visibility = VisibleIf(TextTransform.IsHash(operation));
-        DetailText.Text = HashNote(operation);
+        DetailText.Text = TextTransform.Note(operation);
 
         // An empty box shows nothing rather than the hash of an empty string
         if (HashInput.Text.Length == 0)
@@ -152,17 +152,9 @@ public sealed partial class MainWindow : Window
         catch (FormatException)
         {
             ResultText.Text = string.Empty;
-            DetailText.Text = "This isn't valid Base64 of UTF-8 text.";
+            DetailText.Text = TextTransform.InvalidBase64Message;
         }
     }
-
-    private static string HashNote(TextOperation operation) => operation switch
-    {
-        TextOperation.Md5 => "MD5 is broken. Use it for checksums only, not for passwords or security.",
-        TextOperation.Sha1 => "SHA-1 is broken. Use it for checksums only, not for passwords or security.",
-        TextOperation.Base64Encode or TextOperation.Base64Decode => "Base64 is an encoding, not encryption. Anyone can decode it.",
-        _ => "A one-way hash of the UTF-8 text. Too fast for storing passwords.",
-    };
 
     private void OnGenerateClick(object sender, RoutedEventArgs e) => Render();
 
