@@ -47,6 +47,15 @@ Then open <http://localhost:8080>. The port is bound to localhost because browse
 
 Browsers can't keep copied text out of clipboard history or clear it later, so copied passwords are better protected in the Windows app. See [PRIVACY.md](PRIVACY.md#web-version).
 
+### Deploying with Dokploy
+
+Create an **Application** from this repository's `main` branch with:
+
+- **Build type:** Dockerfile, **Dockerfile path:** `Dockerfile`, **Build path:** `/`
+- **Domain:** your host name, **container port** `8080`, HTTPS on
+
+Use the Dockerfile rather than `docker-compose.yml`, which only publishes the port on localhost. Building needs the .NET SDK and roughly 1–2 GB of memory on the server. To redeploy only when the web version changes, limit the watched paths to `src/BgPasswordGenerator.Web`, `src/BgPasswordGenerator.Core`, `Dockerfile` and `nginx.conf`.
+
 ## Packaging
 
 Setup and portable packages are built with [Velopack](https://velopack.io). Install its CLI once, matching the `Velopack` package version in the app project:
