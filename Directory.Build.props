@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <!-- The release version, shared by the Windows app and the web version -->
-    <Version>4.3.0</Version>
+    <Version>4.4.0</Version>
   </PropertyGroup>
 
 </Project>
