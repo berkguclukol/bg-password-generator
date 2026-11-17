@@ -6,6 +6,7 @@ public static class PasswordGenerator
 {
     public const int MinLength = 4;
     public const int MaxLength = 24;
+    public const int DefaultLength = 18;
 
     public const string Lowercase = "abcdefghijklmnopqrstuvwxyz";
     public const string Uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

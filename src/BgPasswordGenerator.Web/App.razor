@@ -133,7 +133,6 @@
     }
 
     private const string RepositoryUrl = "https://github.com/berkguclukol/bg-password-generator";
-    private const int DefaultLength = 18;
     private static readonly TimeSpan NoticeDuration = TimeSpan.FromSeconds(5);
     private static readonly string? Version = typeof(App).Assembly.GetName().Version?.ToString(3);
 
@@ -159,7 +158,7 @@
     private string result = string.Empty;
     private string detail = string.Empty;
 
-    private int length = DefaultLength;
+    private int length = PasswordGenerator.DefaultLength;
     private bool upper = true;
     private bool lower = true;
     private bool numbers = true;

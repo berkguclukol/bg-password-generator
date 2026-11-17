@@ -8,7 +8,6 @@ namespace BgPasswordGenerator;
 
 public sealed partial class MainWindow : Window
 {
-    private const int DefaultLength = 18;
     private const int WindowWidth = 640;
     private const int WindowHeight = 660;
     private const double PasswordFontSize = 26;
@@ -17,13 +16,14 @@ public sealed partial class MainWindow : Window
     private const int HashMaxLines = 6;
     private static readonly TimeSpan CopiedNoticeDuration = TimeSpan.FromSeconds(3);
 
-    private readonly ClipboardGuard _clipboard = new();
+    private readonly ClipboardGuard _clipboard;
     private readonly AppUpdater _updater = AppUpdater.FromGitHub();
     private readonly DispatcherTimer _copiedNoticeTimer = new() { Interval = CopiedNoticeDuration };
     private bool _clipboardCheckedOnClose;
 
-    public MainWindow()
+    internal MainWindow(ClipboardGuard clipboard)
     {
+        _clipboard = clipboard;
         InitializeComponent();
 
         ExtendsContentIntoTitleBar = true;
@@ -36,7 +36,7 @@ public sealed partial class MainWindow : Window
 
         LengthSlider.Minimum = PasswordGenerator.MinLength;
         LengthSlider.Maximum = PasswordGenerator.MaxLength;
-        LengthSlider.Value = DefaultLength;
+        LengthSlider.Value = PasswordGenerator.DefaultLength;
         LengthSlider.ValueChanged += (_, _) => UpdateLengthText();
         UpdateLengthText();
 
@@ -54,6 +54,24 @@ public sealed partial class MainWindow : Window
 
         ApplyMode();
         _ = CheckForUpdatesAsync(userInitiated: false);
+    }
+
+    /// <summary>Shows the Hash / Base64 tab and puts the cursor in its text box.</summary>
+    public void ShowHash()
+    {
+        ModeSelector.SelectedItem = HashModeItem;
+        HashInput.Focus(FocusState.Programmatic);
+    }
+
+    /// <summary>Restores the window if it's minimized and brings it to the front.</summary>
+    public void BringToFront()
+    {
+        if (AppWindow.Presenter is OverlappedPresenter { State: OverlappedPresenterState.Minimized } presenter)
+        {
+            presenter.Restore();
+        }
+        Activate();
+        SetForegroundWindow(WinRT.Interop.WindowNative.GetWindowHandle(this));
     }
 
     private bool IsUuidMode => ModeSelector.SelectedItem == UuidModeItem;
@@ -174,7 +192,7 @@ public sealed partial class MainWindow : Window
         }
         else
         {
-            _clipboard.Copy(ResultText.Text);
+            _ = _clipboard.Copy(ResultText.Text);
             CopiedInfoBar.Message = "Copied to the clipboard. It will be cleared in 30 seconds.";
         }
         CopiedInfoBar.IsOpen = true;
@@ -269,4 +287,7 @@ public sealed partial class MainWindow : Window
 
     [System.Runtime.InteropServices.DllImport("user32.dll")]
     private static extern uint GetDpiForWindow(nint hwnd);
+
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+    private static extern bool SetForegroundWindow(nint hwnd);
 }

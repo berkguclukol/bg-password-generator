@@ -11,10 +11,15 @@ internal sealed class ClipboardGuard
     public static readonly TimeSpan ClearDelay = TimeSpan.FromSeconds(30);
 
     private string? _lastCopied;
+    private int _pendingClears;
 
     public bool HasCopied => _lastCopied is not null;
 
-    public void Copy(string text)
+    /// <summary>True while a copied password is still waiting for its <see cref="ClearDelay"/>.</summary>
+    public bool HasPendingClear => _pendingClears > 0;
+
+    /// <summary>Copies the text and returns a task that completes once its delayed clear has run.</summary>
+    public Task Copy(string text)
     {
         var package = new DataPackage();
         package.SetText(text);
@@ -24,7 +29,7 @@ internal sealed class ClipboardGuard
             IsRoamable = false,
         });
         _lastCopied = text;
-        _ = ClearLaterAsync(text);
+        return ClearLaterAsync(text);
     }
 
     /// <summary>
@@ -41,10 +46,19 @@ internal sealed class ClipboardGuard
     public Task ClearLastCopiedIfStillThereAsync() =>
         _lastCopied is null ? Task.CompletedTask : ClearIfOursAsync(_lastCopied);
 
+    // Continuations run on the UI thread, so the counter needs no locking
     private async Task ClearLaterAsync(string text)
     {
-        await Task.Delay(ClearDelay);
-        await ClearIfOursAsync(text);
+        _pendingClears++;
+        try
+        {
+            await Task.Delay(ClearDelay);
+            await ClearIfOursAsync(text);
+        }
+        finally
+        {
+            _pendingClears--;
+        }
     }
 
     // Clear only if the clipboard still holds our password, so later copies by the user aren't wiped

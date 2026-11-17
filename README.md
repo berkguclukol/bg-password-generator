@@ -9,6 +9,7 @@ A native Windows app for quickly creating passwords and random UUIDs, and for ha
 - Copied passwords are kept out of Windows clipboard history (Win+V) and cloud clipboard sync, and are cleared after 30 seconds or when the window closes, unless something else was copied since.
 - Random UUIDs (version 4), optionally uppercase or without hyphens. UUIDs are copied normally since they aren't secrets.
 - MD5, SHA-1, SHA-256 and SHA-512 hashes and Base64 encoding of text, as you type. Results are copied the same guarded way as passwords. MD5 and SHA-1 are broken and only suit checksums, and Base64 isn't encryption.
+- Taskbar shortcuts: right-click the app's taskbar button for **Copy new password** and **Copy new UUID**, which copy without opening the window, and **Hash or encode text**. The app runs as a single window; launching it again brings that window forward.
 - Updates from GitHub: on startup an installed copy checks this repository's latest release and offers to update and restart. The update check is the app's only network request; it sends nothing but the request itself, and the app works normally when offline. The About page shows the version, project links and a manual "Check for updates" button.
 
 See [PRIVACY.md](PRIVACY.md) for exactly what the app does with your data, the clipboard and the network.

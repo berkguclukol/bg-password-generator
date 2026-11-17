@@ -1,6 +1,6 @@
 # Privacy
 
-_Last updated: November 5, 2026_
+_Last updated: November 17, 2026_
 
 BG Password Generator is a small tool that does its work on your device. It has no accounts, no telemetry, no analytics and no ads, and the developer receives no data from it.
 
@@ -18,7 +18,7 @@ Everything below describes the Windows app unless it says otherwise. The web ver
 
 ## Clipboard
 
-- A copied **password, hash or Base64 result** is kept out of Windows clipboard history (Win+V) and out of cloud clipboard sync between your devices. It is removed from the clipboard after 30 seconds or when the app closes, unless you've copied something else since. While it's on the clipboard, other programs on your computer can read it, as with anything you copy.
+- A copied **password, hash or Base64 result** (including one copied from the taskbar menu) is kept out of Windows clipboard history (Win+V) and out of cloud clipboard sync between your devices. It is removed from the clipboard after 30 seconds or when the app closes, unless you've copied something else since. While it's on the clipboard, other programs on your computer can read it, as with anything you copy.
 - A copied **UUID** is treated like any other copied text: it can appear in clipboard history, it syncs if you've turned on cloud clipboard, and it stays on the clipboard after the app closes.
 
 ## Update check
@@ -36,6 +36,7 @@ This is the only time the app uses the network.
 - The app's files and downloaded update packages live in its install folder (`%LocalAppData%\BgPasswordGenerator` for Setup, or wherever you extracted the Portable zip).
 - The updater creates a random install ID in `packages\.betaId` inside that folder. It's used by Velopack's own hosted update service, which this app doesn't use, so it never leaves your device.
 - The updater keeps a log of install and update activity at `%LocalAppData%\velopack\velopack_BgPasswordGenerator.log`. It contains version numbers and file paths (which can include your Windows user name) but never passwords or UUIDs.
+- The taskbar menu's tasks are stored by Windows in `%AppData%\Microsoft\Windows\Recent\CustomDestinations`. They hold only the task names and the app's path, and Windows keeps that file after uninstalling.
 - Setup adds Desktop and Start Menu shortcuts and an entry in Apps and features. Uninstalling removes the install folder, the shortcuts and that entry. The updater log above stays behind; you can delete it by hand. For the Portable version, deleting its folder removes everything except that log.
 
 ## Web version
